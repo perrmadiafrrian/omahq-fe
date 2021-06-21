@@ -1,11 +1,10 @@
-import Box from "./components/Box";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
-    <div className="flex justify-center mt-28 min-h-half">
-      <div className="md:w-9/12 lg:w-6/12 min-h-half">
-        <Box>Hahaha</Box>
-      </div>
+    <div>
+      <Sidebar />
+      <div className="inline-block">ABC</div>
     </div>
   );
 }
