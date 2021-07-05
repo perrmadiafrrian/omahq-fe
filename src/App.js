@@ -1,10 +1,9 @@
-import Sidebar from "./components/Sidebar";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <div>
-      <Sidebar />
-      <div className="inline-block">ABC</div>
+      <Login />
     </div>
   );
 }
