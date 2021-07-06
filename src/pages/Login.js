@@ -1,7 +1,7 @@
 const Login = (props) => {
   return (
     <section className="text-gray-700 bg-gray-100">
-      <div className="container 2xl:px-100 lg:px-80 px-5 py-36 mx-auto flex flex-wrap items-center">
+      <div className="container 2xl:px-100 lg:px-80 px-5 py-36 mx-auto flex flex-wrap items-center min-h-screen">
         <div className="w-full pr-0 xl:mb-4 lg:mb-3 md:mb-2">
           <h1 className="title-font font-bold lg:text-7xl text-6xl text-yellow-600 text-center">
             OmahQ
