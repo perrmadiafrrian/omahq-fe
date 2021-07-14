@@ -5,10 +5,16 @@ const Home = (props) => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navigation />
-      <div className="flex justify-center space-x-20 py-20 px-72 md:px-60 sm:px-10">
-        <div className="w-40 h-40 shadow-lg rounded-lg bg-white flex flex-col items-center justify-around">
-          <img src={houseIcon} alt="" className="w-20" />
-          <span className="text-xl">My House</span>
+      <div className="py-10 lg:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-4 justify-items-center">
+          <button className="w-32 h-32 lg:w-40 lg:h-40 shadow-lg rounded-lg bg-white flex flex-col items-center justify-around hover:bg-gray-200 transition-colors duration-200 ease-in-out">
+            <img src={houseIcon} alt="" className="w-14 lg:w-20" />
+            <span className="text-base md:text-xl">My House</span>
+          </button>
+          <button className="w-32 h-32 lg:w-40 lg:h-40 shadow-lg rounded-lg bg-white flex flex-col items-center justify-around hover:bg-gray-200 transition-colors duration-200 ease-in-out">
+            <img src={houseIcon} alt="" className="w-14 lg:w-20" />
+            <span className="text-base md:text-xl">My House</span>
+          </button>
         </div>
       </div>
     </div>
