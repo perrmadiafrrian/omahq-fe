@@ -1,3 +1,5 @@
+import GoogleSignout from "./GoogleSignout";
+
 const Navigation = (props) => {
   return (
     <div className="w-full shadow-lg px-2 sm:px-6 lg:px-8">
@@ -42,12 +44,7 @@ const Navigation = (props) => {
               >
                 Settings
               </button>
-              <button
-                className="block px-4 py-2 text-sm text-gray-700"
-                tabIndex="-1"
-              >
-                Sign Out
-              </button>
+              <GoogleSignout />
             </div>
           </div>
         </div>
