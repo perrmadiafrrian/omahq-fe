@@ -40,6 +40,11 @@
           "url": "https://tailwindcss.com/docs/functions-and-directives#variants"
         }
       ]
+    },
+    {
+      "name": "@apply",
+      "description": "CSS Apply",
+      "references": [{}]
     }
   ]
 }
