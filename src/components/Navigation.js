@@ -26,7 +26,38 @@ const Navigation = (props) => {
                 />
               </button>
             </div>
+            <div
+              className="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              tabIndex="-1"
+            >
+              <button
+                className="block px-4 py-2 text-sm text-gray-700"
+                tabIndex="-1"
+              >
+                Profile
+              </button>
+              <button
+                className="block px-4 py-2 text-sm text-gray-700"
+                tabIndex="-1"
+              >
+                Settings
+              </button>
+              <button
+                className="block px-4 py-2 text-sm text-gray-700"
+                tabIndex="-1"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
+        </div>
+      </div>
+      <div className="sm:hidden">
+        <div className="px-2 pt-2 pb-3 space-y-1">
+          <button className="text-lg block text-center px-3 py-2">Home</button>
+          <button className="text-lg block text-center px-3 py-2">
+            Stores
+          </button>
         </div>
       </div>
     </div>
