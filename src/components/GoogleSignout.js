@@ -1,6 +1,6 @@
 import { useGoogleLogout } from "react-google-login";
 
-const CLIENT_ID = ``;
+const CLIENT_ID = `2615891792-9iab23mglp6sch2dn81p3ugmfvjgfakc.apps.googleusercontent.com`;
 
 const GoogleSignout = (props) => {
   const onLogoutSuccess = (res) => {
@@ -20,7 +20,7 @@ const GoogleSignout = (props) => {
   return (
     <button
       onClick={signOut}
-      className="block px-4 py-2 text-sm text-gray-700"
+      className="block w-full text-left hover:text-gray-400 transition-colors ease-in-out px-4 py-2 text-sm text-gray-700"
       tabIndex="-1"
     >
       Sign Out

@@ -31,6 +31,7 @@ module.exports = {
     extend: {
       backgroundColor: ["active"],
       filter: ["hover", "focus"],
+      fontSize: ["hover", "focus"],
     },
   },
   plugins: [],
