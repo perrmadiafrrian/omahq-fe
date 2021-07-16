@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import GoogleSignout from "./GoogleSignout";
 
 const NavProfile = (props) => {
   const [showUMenu, setShowUMenu] = useState(false);
+  const nodeRef = useRef(null);
   const handleBlur = (e) => {
     setShowUMenu(false);
   };
@@ -34,8 +35,10 @@ const NavProfile = (props) => {
           timeout={300}
           classNames="umenu"
           unmountOnExit
+          nodeRef={nodeRef}
         >
           <div
+            ref={nodeRef}
             className={`block origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}
             tabIndex="-1"
           >
