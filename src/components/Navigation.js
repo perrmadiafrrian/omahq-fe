@@ -2,7 +2,7 @@ const { default: NavProfile } = require("./NavProfile");
 
 const Navigation = (props) => {
   return (
-    <div className="w-full shadow-lg px-2 sm:px-6 lg:px-8">
+    <div className="w-full bg-white shadow-lg px-2 sm:px-6 lg:px-8">
       <div className="relative max-w-5xl mx-auto h-16 flex items-center justify-between">
         <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
           <button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-colors duration-200 ease-in-out">

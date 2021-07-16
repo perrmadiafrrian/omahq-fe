@@ -4,14 +4,17 @@ const ItemPage = (props) => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navigation />
-      <div className="flex">
-        <div className="py-6 md:py-10 w-full flex justify-between">
+      <div className="flex flex-col">
+        <div className="pt-6 pb-4 mb-4 bg-indigo-50 px-6 w-full flex justify-between shadow">
           <div className="px-6 md:px-16 text-3xl font-bold">House 1 -</div>
           <div className="px-6 md:px-16">
-            <button className="bg-green-500 rounded-lg py-2 px-4 text-white">
+            <button className="bg-green-500 hover:bg-green-600 rounded-lg py-2 px-4 text-white">
               Scan
             </button>
           </div>
+        </div>
+        <div className="w-full flex flex-wrap justify-center space-x-6">
+          <div className="w-72 h-44 bg-blue-200 hover:bg-blue-300 duration-300 ease-in-out shadow rounded-2xl"></div>
         </div>
       </div>
     </div>
