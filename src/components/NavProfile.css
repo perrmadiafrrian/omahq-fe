@@ -1,0 +1,12 @@
+.umenu-enter {
+  @apply opacity-0 transform scale-y-0;
+}
+.umenu-enter-active {
+  @apply opacity-100 transform scale-y-100 duration-300;
+}
+.umenu-exit {
+  @apply opacity-100;
+}
+.umenu-exit-active {
+  @apply opacity-0 transform scale-y-0 duration-300;
+}

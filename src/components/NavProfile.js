@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import GoogleSignout from "./GoogleSignout";
+import "./NavProfile.css";
 
 const NavProfile = (props) => {
   const [showUMenu, setShowUMenu] = useState(false);
