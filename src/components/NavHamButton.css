@@ -5,12 +5,14 @@
   @apply transform rotate-spin;
 }
 .fade-enter {
-  @apply transform rotate-90;
+  @apply transform rotate-0;
 }
 .fade-enter-active {
   @apply transform rotate-spin;
 }
-.fade-enter-active,
+.fade-enter-active {
+  @apply transition duration-200 ease-in;
+}
 .fade-exit-active {
   @apply transition duration-200 ease-out;
 }
