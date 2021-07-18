@@ -1,7 +1,9 @@
+import { TOGGLE_MENU } from "../actions";
+
 const initialState = { opened: false };
 
 const menuReducer = (state = initialState, action) => {
-  if (action.type === "TOGGLE_MENU") {
+  if (action.type === TOGGLE_MENU) {
     return {
       ...state,
       opened: !state.opened,

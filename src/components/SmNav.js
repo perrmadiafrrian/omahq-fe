@@ -1,12 +1,13 @@
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import "./SmNav.css";
 import { useDispatch, useSelector } from "react-redux";
+import { TOGGLE_MENU } from "../actions";
 
 const NavHamButton = (props) => {
   const state = useSelector((state) => state.menuState);
   const dispatch = useDispatch();
   const handleMenuOpen = () => {
-    dispatch({ type: "TOGGLE_MENU", payload: false });
+    dispatch({ type: TOGGLE_MENU, payload: false });
   };
 
   return (
