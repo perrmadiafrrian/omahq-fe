@@ -76,9 +76,11 @@ const NavMenu = (props) => {
       unmountOnExit
     >
       <div className={`sm:hidden origin-top`}>
-        <div className="px-2 pt-2 pb-3 space-y-1">
-          <button className="text-lg block text-center px-3 py-2">Home</button>
-          <button className="text-lg block text-center px-3 py-2">
+        <div className="pt-2 pb-3 space-y-1">
+          <button className="text-lg w-full hover:bg-indigo-100 border-l-2 border-indigo-400 block text-left px-3 py-2">
+            Home
+          </button>
+          <button className="text-lg w-full hover:bg-indigo-100 block text-left px-3 py-2">
             Stores
           </button>
         </div>
