@@ -25,6 +25,9 @@ module.exports = {
       maxWidth: {
         10: "10rem",
       },
+      rotate: {
+        spin: "360deg",
+      },
       padding: {
         100: "30rem",
       },
