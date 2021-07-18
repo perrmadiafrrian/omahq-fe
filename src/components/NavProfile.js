@@ -16,7 +16,7 @@ const NavProfile = (props) => {
           Permadi Afrian
         </button>
       </div>
-      <div className="ml-2 relative">
+      <div className="ml-2 relative z-30">
         <div>
           <button
             onClick={() => setShowUMenu(!showUMenu)}

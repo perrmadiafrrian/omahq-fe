@@ -22,6 +22,9 @@ module.exports = {
         full: "100%",
         half: "50vh",
       },
+      maxWidth: {
+        10: "10rem",
+      },
       padding: {
         100: "30rem",
       },
