@@ -1,16 +1,16 @@
-.fade-enter {
+.fade-exit {
   @apply transform rotate-0;
+}
+.fade-exit-active {
+  @apply transform rotate-spin;
+}
+.fade-enter {
+  @apply transform rotate-90;
 }
 .fade-enter-active {
   @apply transform rotate-spin;
 }
-.fade-exit {
-  @apply transform -rotate-180;
-}
-.fade-exit-active {
-  @apply transform rotate-180;
-}
 .fade-enter-active,
 .fade-exit-active {
-  @apply transition duration-300;
+  @apply transition duration-200 ease-out;
 }

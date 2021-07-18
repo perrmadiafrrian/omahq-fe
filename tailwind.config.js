@@ -26,7 +26,7 @@ module.exports = {
         10: "10rem",
       },
       rotate: {
-        spin: "360deg",
+        spin: "720deg",
       },
       padding: {
         100: "30rem",
