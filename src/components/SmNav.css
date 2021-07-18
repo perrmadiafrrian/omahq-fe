@@ -1,0 +1,25 @@
+.fade-exit {
+  @apply transform rotate-0;
+}
+.fade-exit-active {
+  @apply transform rotate-spin transition duration-200 ease-out;
+}
+.fade-enter {
+  @apply transform rotate-0;
+}
+.fade-enter-active {
+  @apply transform rotate-spin transition duration-200 ease-in;
+}
+
+.nav-menu-enter {
+  @apply transform -translate-y-20 opacity-0;
+}
+.nav-menu-enter-active {
+  @apply transform translate-y-5 opacity-100 transition duration-500 ease-out;
+}
+.nav-menu-exit {
+  @apply transform translate-y-0 opacity-100;
+}
+.nav-menu-exit-active {
+  @apply transform -translate-y-20 opacity-0 transition duration-500 ease-in-out;
+}

@@ -1,11 +1,9 @@
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import "./NavHamButton.css";
+import "./SmNav.css";
 import { useDispatch, useSelector } from "react-redux";
 
 const NavHamButton = (props) => {
-  const state = useSelector((state) => {
-    return state.menuState;
-  });
+  const state = useSelector((state) => state.menuState);
   const dispatch = useDispatch();
   const handleMenuOpen = () => {
     dispatch({ type: "TOGGLE_MENU", payload: false });
@@ -66,4 +64,26 @@ const NavHamButton = (props) => {
   );
 };
 
-export default NavHamButton;
+const NavMenu = (props) => {
+  const state = useSelector((state) => state.menuState);
+
+  return (
+    <CSSTransition
+      in={state.opened}
+      timeout={200}
+      classNames="nav-menu"
+      unmountOnExit
+    >
+      <div className={`sm:hidden origin-top`}>
+        <div className="px-2 pt-2 pb-3 space-y-1">
+          <button className="text-lg block text-center px-3 py-2">Home</button>
+          <button className="text-lg block text-center px-3 py-2">
+            Stores
+          </button>
+        </div>
+      </div>
+    </CSSTransition>
+  );
+};
+
+export { NavHamButton, NavMenu };
