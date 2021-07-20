@@ -20,7 +20,6 @@ const NavProfile = (props) => {
         <div>
           <button
             onClick={() => setShowUMenu(!showUMenu)}
-            onBlur={(e) => handleBlur(e)}
             className="bg-gray-800 hover:opacity-50 transition ease-in-out duration-300 flex text-sm rounded-full focus:outline-none"
           >
             <span className="sr-only">Open user menu</span>
@@ -38,24 +37,31 @@ const NavProfile = (props) => {
           unmountOnExit
           nodeRef={nodeRef}
         >
-          <div
-            ref={nodeRef}
-            className={`block origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}
-            tabIndex="-1"
-          >
-            <button
-              className="block w-full text-left hover:text-gray-400 transition-colors ease-in-out px-4 py-2 text-sm text-gray-700"
+          <div>
+            <div
+              onClick={() => handleBlur()}
+              className="fixed inset-0"
+              aria-hidden="true"
+            ></div>
+            <div
+              ref={nodeRef}
+              className={`block origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}
               tabIndex="-1"
             >
-              Profile
-            </button>
-            <button
-              className="block w-full text-left hover:text-gray-400 transition-colors ease-in-out px-4 py-2 text-sm text-gray-700"
-              tabIndex="-1"
-            >
-              Settings
-            </button>
-            <GoogleSignout />
+              <button
+                className="block w-full text-left hover:text-gray-400 transition-colors ease-in-out px-4 py-2 text-sm text-gray-700"
+                tabIndex="-1"
+              >
+                Profile
+              </button>
+              <button
+                className="block w-full text-left hover:text-gray-400 transition-colors ease-in-out px-4 py-2 text-sm text-gray-700"
+                tabIndex="-1"
+              >
+                Settings
+              </button>
+              <GoogleSignout />
+            </div>
           </div>
         </CSSTransition>
       </div>
