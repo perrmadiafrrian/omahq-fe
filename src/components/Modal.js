@@ -12,12 +12,12 @@ const Modal = ({ children, closing, ...props }) => {
           aria-hidden="true"
         ></div>
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden filter drop-shadow-3xl transform transition-all w-full sm:max-w-lg my-8">
-          <div className="py-2 flex flex-col">
-            <div className="w-full mb-4 px-4">
-              <span className="text-2xl font-bold inset-y-0 left-0">Odol</span>
+          <div className="pb-2 pt-1 flex flex-col">
+            <div className="w-full mb-4 px-2">
+              <span className="text-2xl font-bold px-1">Odol</span>
               <button
                 onClick={() => closing()}
-                className="absolute right-0 mx-2 focus:outline-none hover:bg-red-200 transition duration-500 ease-in-out hover:text-red-600 rounded-xl p-1"
+                className="absolute right-0 mx-1 focus:outline-none hover:bg-red-200 active:bg-red-100 transition duration-500 ease-in-out hover:text-red-600 rounded-xl p-1"
               >
                 <svg
                   className="h-6 w-6"
@@ -36,7 +36,7 @@ const Modal = ({ children, closing, ...props }) => {
                 </svg>
               </button>
             </div>
-            <div className="w-full px-2 py-4">{children}</div>
+            <div className="w-full px-2 pb-1">{children}</div>
           </div>
         </div>
       </div>

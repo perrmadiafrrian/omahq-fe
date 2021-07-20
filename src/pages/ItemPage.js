@@ -71,8 +71,35 @@ const ItemPage = (props) => {
         classNames="modal"
       >
         <Modal closing={() => setShowModal(false)}>
-          <div className="h-10 text-center">
-            <div className="text-2xl">TESTINg</div>
+          <div className="flex flex-col px-1">
+            <div className="flex flex-row space-x-2">
+              <div className="w-24 h-36 sm:w-36 sm:h-36 bg-gray-500 rounded-xl mr-2 overflow-hidden">
+                <img
+                  src={`https://images.unsplash.com/photo-1520013573795-38516d2661e4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1107&q=80`}
+                  alt=""
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+              <div className="flex flex-col flex-1">
+                <div className="text-sm font-semibold">098765432123</div>
+                <div className="text-xs flex-1">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Inventore sunt, iusto et dolorum.
+                </div>
+                <div className="w-full flex flex-row justify-between">
+                  <div className="text-base">10 pcs</div>
+                  <div className="space-x-2">
+                    <button className="px-2 py-1 bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-100 transition duration-300 focus:outline-none text-sm rounded-lg">
+                      Take 1
+                    </button>
+                    <button className="px-2 py-1 bg-green-200 hover:bg-green-300 active:bg-green-100 transition duration-300 focus:outline-none text-sm rounded-lg">
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="h-80 bg-gray-300 mt-4 rounded-lg"></div>
           </div>
         </Modal>
       </CSSTransition>

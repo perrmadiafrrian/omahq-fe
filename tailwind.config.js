@@ -23,7 +23,12 @@ module.exports = {
         half: "50vh",
       },
       maxWidth: {
+        7: "7rem",
+        9: "9rem",
         10: "10rem",
+        13: "13rem",
+        15: "15rem",
+        "1/2": "50%",
       },
       rotate: {
         spin: "720deg",
