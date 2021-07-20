@@ -1,6 +1,11 @@
 import Navigation from "../components/Navigation";
+import Modal from "../components/Modal";
+import { useState } from "react";
+import { CSSTransition } from "react-transition-group";
 
 const ItemPage = (props) => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navigation />
@@ -30,7 +35,10 @@ const ItemPage = (props) => {
               </span>
               <span className="text-sm pb-2">Rp. 999 100</span>
             </div>
-            <button className="absolute opacity-0 hover:opacity-40 duration-500 ease-in-out flex justify-center items-center bg-gray-500 w-full h-full z-10">
+            <button
+              onClick={() => setShowModal(true)}
+              className="absolute opacity-0 hover:opacity-40 duration-500 ease-in-out flex justify-center items-center bg-gray-500 w-full h-full z-10"
+            >
               <span className="text-5xl font-bold">...</span>
             </button>
           </div>
@@ -56,6 +64,18 @@ const ItemPage = (props) => {
           </div>
         </div>
       </div>
+      <CSSTransition
+        in={showModal}
+        timeout={300}
+        unmountOnExit
+        classNames="modal"
+      >
+        <Modal closing={() => setShowModal(false)}>
+          <div className="h-10 text-center">
+            <div className="text-2xl">TESTINg</div>
+          </div>
+        </Modal>
+      </CSSTransition>
     </div>
   );
 };

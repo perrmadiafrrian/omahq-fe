@@ -31,6 +31,9 @@ module.exports = {
       padding: {
         100: "30rem",
       },
+      dropShadow: {
+        "3xl": "0 0 2rem rgba(0, 0, 0, 0.25)",
+      },
     },
   },
   variants: {
