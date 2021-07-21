@@ -1,5 +1,6 @@
 import { NavHamButton, NavMenu } from "./SmNav";
 import NavProfile from "./NavProfile";
+import { Link } from "react-router-dom";
 
 const Navigation = (props) => {
   return (
@@ -11,12 +12,16 @@ const Navigation = (props) => {
         <div className="flex-1 flex self-stretch justify-center sm:items-stretch sm:justify-start">
           <div className="hidden sm:block sm:ml-6">
             <div className="flex h-full space-x-4">
-              <button className="text-lg focus:outline-none border-b-2 border-blue-400 hover:text-gray-400 text-black transition duration-300 ease-in-out text-center px-3 py-2">
-                Home
-              </button>
-              <button className="text-lg focus:outline-none hover:text-gray-400 text-black transition duration-300 ease-in-out text-center px-3 py-2">
-                Stores
-              </button>
+              <Link to="/">
+                <button className="text-lg h-full focus:outline-none border-b-2 border-blue-400 hover:text-gray-400 text-black transition duration-300 ease-in-out text-center px-3 py-2">
+                  Home
+                </button>
+              </Link>
+              <Link to="/test">
+                <button className="text-lg h-full focus:outline-none hover:text-gray-400 text-black transition duration-300 ease-in-out text-center px-3 py-2">
+                  Stores
+                </button>
+              </Link>
             </div>
           </div>
         </div>
