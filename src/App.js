@@ -1,7 +1,7 @@
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  // Route,
   // Link,
   // Redirect,
   // useHistory,
@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { ItemPage, Home, Login } from "./pages";
 import PrivateRoute from "./utils/PrivateRoute";
+import Route from "./utils/Route";
 
 function App() {
   return (

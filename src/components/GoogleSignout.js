@@ -1,4 +1,5 @@
 import { useGoogleLogout } from "react-google-login";
+import PersistorPurge from "../utils/PersistorPurge";
 
 const CLIENT_ID = `2615891792-9iab23mglp6sch2dn81p3ugmfvjgfakc.apps.googleusercontent.com`;
 
@@ -17,9 +18,14 @@ const GoogleSignout = (props) => {
     onFailure,
   });
 
+  const handleSignout = () => {
+    PersistorPurge();
+    signOut();
+  };
+
   return (
     <button
-      onClick={signOut}
+      onClick={handleSignout}
       className="block w-full text-left hover:text-gray-400 transition-colors ease-in-out px-4 py-2 text-sm text-gray-700"
       tabIndex="-1"
     >
