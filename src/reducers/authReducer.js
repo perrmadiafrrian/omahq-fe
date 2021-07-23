@@ -5,6 +5,7 @@ const initialState = {
   access_token: null,
   refresh_token: null,
   id_token: null,
+  data: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -14,9 +15,10 @@ const authReducer = (state = initialState, action) => {
     return {
       ...state,
       is_auth: payload.is_auth,
-      access_token: payload.access_token,
+      access_token: `${payload.token_type} ${payload.access_token}`,
       refresh_token: payload.refresh_token,
       id_token: payload.id_token,
+      data: payload.data,
     };
   }
 
@@ -27,6 +29,7 @@ const authReducer = (state = initialState, action) => {
       access_token: null,
       refresh_token: null,
       id_token: null,
+      data: null,
     };
   }
 
