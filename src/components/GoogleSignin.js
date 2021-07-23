@@ -1,24 +1,41 @@
 import { useGoogleLogin } from "react-google-login";
 import googleIcon from "../icons/google.svg";
 import axiosInstance from "../utils/axiosInstance";
+import { useDispatch } from "react-redux";
+import { AUTH_SET } from "../actions";
+import { useLocation, useHistory } from "react-router";
 // import refreshTokenSetup from "../utils/refreshTokenHandler";
 
 const CLIENT_ID = `2615891792-9iab23mglp6sch2dn81p3ugmfvjgfakc.apps.googleusercontent.com`;
 
 function GoogleSignin() {
-  console.log(axiosInstance);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
+  const { from } = location.state || { from: { pathname: "/" } };
 
   const onSuccess = async (res) => {
-    console.log(res.profileObj);
+    const { email, imageUrl, name } = res.profileObj;
     await axiosInstance
       .post("/auth/google", {
-        id_token: "abc",
+        id_token: res.tokenId,
+        email,
+        image: imageUrl,
+        name,
+        username: email,
       })
       .then((res) => {
-        console.log(res);
+        const { status, ...data } = res.data;
+        dispatch({
+          type: AUTH_SET,
+          payload: { is_auth: status === "success", ...data },
+        });
+        if (status === "success") {
+          history.replace(from);
+        }
       })
       .catch((err) => {
-        // alert(err.response.data);
+        console.log(err);
       });
   };
 

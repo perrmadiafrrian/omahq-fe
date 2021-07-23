@@ -1,9 +1,17 @@
 import { useGoogleLogout } from "react-google-login";
 import PersistorPurge from "../utils/PersistorPurge";
+import { useLocation, useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { AUTH_INVALIDATE } from "../actions";
 
 const CLIENT_ID = `2615891792-9iab23mglp6sch2dn81p3ugmfvjgfakc.apps.googleusercontent.com`;
 
 const GoogleSignout = (props) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
+  const { from } = location.state || { from: { pathname: "/login" } };
+
   const onLogoutSuccess = (res) => {
     console.log(res);
   };
@@ -21,6 +29,8 @@ const GoogleSignout = (props) => {
   const handleSignout = () => {
     PersistorPurge();
     signOut();
+    dispatch({ type: AUTH_INVALIDATE });
+    history.replace(from);
   };
 
   return (
