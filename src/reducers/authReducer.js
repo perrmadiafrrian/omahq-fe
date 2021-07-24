@@ -25,11 +25,7 @@ const authReducer = (state = initialState, action) => {
   if (action.type === AUTH_INVALIDATE) {
     return {
       ...state,
-      is_auth: false,
-      access_token: null,
-      refresh_token: null,
-      id_token: null,
-      data: null,
+      ...initialState,
     };
   }
 

@@ -4,9 +4,8 @@ import axiosInstance from "../utils/axiosInstance";
 import { useDispatch } from "react-redux";
 import { AUTH_SET } from "../actions";
 import { useLocation, useHistory } from "react-router";
-// import refreshTokenSetup from "../utils/refreshTokenHandler";
 
-const CLIENT_ID = `2615891792-9iab23mglp6sch2dn81p3ugmfvjgfakc.apps.googleusercontent.com`;
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 function GoogleSignin() {
   const dispatch = useDispatch();
