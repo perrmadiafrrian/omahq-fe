@@ -1,12 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Switch,
-  // Route,
-  // Link,
-  // Redirect,
-  // useHistory,
-  // useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { ItemPage, Home, Login } from "./pages";
 import PrivateRoute from "./utils/PrivateRoute";
 import Route from "./utils/Route";
@@ -19,7 +11,7 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <PrivateRoute path="/test">
+          <PrivateRoute path="/house/:id">
             <ItemPage />
           </PrivateRoute>
           <PrivateRoute path="/">

@@ -2,10 +2,12 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 import "./SmNav.css";
 import { useDispatch, useSelector } from "react-redux";
 import { TOGGLE_MENU } from "../actions";
+import { useRef } from "react";
 
 const NavHamButton = (props) => {
   const state = useSelector((state) => state.menuState);
   const dispatch = useDispatch();
+  const ref = useRef(null);
   const handleMenuOpen = () => {
     dispatch({ type: TOGGLE_MENU, payload: false });
   };
@@ -14,12 +16,12 @@ const NavHamButton = (props) => {
     <SwitchTransition>
       <CSSTransition
         key={state.opened}
-        addEndListener={(node, done) => {
-          node.addEventListener("transitionend", done, false);
-        }}
+        timeout={200}
+        nodeRef={ref}
         classNames="fade"
       >
         <button
+          ref={ref}
           onClick={() => handleMenuOpen()}
           className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-colors duration-200 ease-in-out"
         >
@@ -67,6 +69,7 @@ const NavHamButton = (props) => {
 
 const NavMenu = (props) => {
   const state = useSelector((state) => state.menuState);
+  const ref = useRef(null);
 
   return (
     <CSSTransition
@@ -74,8 +77,9 @@ const NavMenu = (props) => {
       timeout={200}
       classNames="nav-menu"
       unmountOnExit
+      nodeRef={ref}
     >
-      <div className={`sm:hidden origin-top`}>
+      <div ref={ref} className={`sm:hidden origin-top`}>
         <div className="pt-2 pb-3 space-y-1">
           <button className="text-lg w-full hover:bg-indigo-100 border-l-2 border-indigo-400 block text-left px-3 py-2">
             Home

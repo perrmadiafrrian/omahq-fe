@@ -1,14 +1,14 @@
 .fade-exit {
-  @apply transform rotate-0;
+  @apply transform rotate-0 opacity-100;
 }
 .fade-exit-active {
-  @apply transform rotate-spin transition duration-200 ease-out;
+  @apply transform rotate-spin opacity-40 transition duration-200 ease-in;
 }
 .fade-enter {
-  @apply transform rotate-0;
+  @apply transform rotate-0 opacity-40;
 }
 .fade-enter-active {
-  @apply transform rotate-spin transition duration-200 ease-in;
+  @apply transform rotate-spin opacity-100 transition duration-200 ease-in;
 }
 
 .nav-menu-enter {

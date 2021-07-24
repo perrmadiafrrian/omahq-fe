@@ -1,6 +1,9 @@
-const Modal = ({ children, closing, ...props }) => {
+import { forwardRef } from "react";
+
+const Modal = forwardRef(({ children, closing, ...props }, ref) => {
   return (
     <div
+      ref={ref}
       className="fixed z-40 sm:pt-10 inset-0 overscroll-y-auto"
       role="dialog"
       aria-modal="true"
@@ -42,7 +45,7 @@ const Modal = ({ children, closing, ...props }) => {
       </div>
     </div>
   );
-};
+});
 
 Modal.defaultProps = {
   closing: () => {},
