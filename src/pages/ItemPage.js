@@ -4,12 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
+import LoadingSpinner from "../components/LoadingSpinner";
+
+const formatter = Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+});
 
 const ItemPage = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [house, setHouse] = useState({});
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
+  const [transactions, setTransactions] = useState([]);
+  const [loadingTransaction, setLoadingTransaction] = useState(true);
   const { id } = useParams();
   const nodeRef = useRef(null);
 
@@ -34,9 +42,17 @@ const ItemPage = (props) => {
     getItemsData();
   }, [id]);
 
-  const handleModalOpening = (data) => {
+  const handleModalOpening = async (data) => {
     setItem(data);
     setShowModal(true);
+    setLoadingTransaction(true);
+    await axiosInstance
+      .get(`/transaction/byitem/${data.id}`)
+      .then((res) => {
+        setTransactions(res.data.transactions);
+        setLoadingTransaction(false);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -116,7 +132,26 @@ const ItemPage = (props) => {
                 </div>
               </div>
             </div>
-            <div className="h-80 bg-gray-300 mt-4 rounded-lg"></div>
+            <div className="h-80 max-h-80 overflow-y-scroll bg-gray-300 mt-4 rounded-lg overflow-hidden">
+              {loadingTransaction ? (
+                <div className="h-full w-full flex justify-center items-center">
+                  <LoadingSpinner />
+                </div>
+              ) : (
+                <table className="w-full m-2">
+                  <tbody>
+                    {transactions.map((v, i) => {
+                      return (
+                        <tr key={i}>
+                          <td>{v.store.name}</td>
+                          <td>{formatter.format(v.price)}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
+            </div>
           </div>
         </Modal>
       </CSSTransition>
