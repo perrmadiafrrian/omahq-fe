@@ -9,6 +9,7 @@ const ItemPage = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [house, setHouse] = useState({});
   const [items, setItems] = useState([]);
+  const [item, setItem] = useState({});
   const { id } = useParams();
   const nodeRef = useRef(null);
 
@@ -26,13 +27,17 @@ const ItemPage = (props) => {
         .get(`/item?house=${id}`)
         .then((res) => {
           setItems(res.data.items);
-          console.log(res.data.items);
         })
         .catch((err) => console.log(err));
     };
     getHouseData();
     getItemsData();
   }, [id]);
+
+  const handleModalOpening = (data) => {
+    setItem(data);
+    setShowModal(true);
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -60,12 +65,12 @@ const ItemPage = (props) => {
                 />
               </div>
               <div className="rounded-xl max-w-10 flex flex-col justify-between h-full">
-                <span className="text-lg font-bold">{v.description}</span>
-                <span className="text-sm mb-3">{v.barcode}</span>
+                <span className="text-lg font-bold">{v.name}</span>
+                <span className="text-sm mb-3">{v.description}</span>
                 <span className="text-sm pb-2">{`${v.quantity} pcs`}</span>
               </div>
               <button
-                onClick={() => setShowModal(true)}
+                onClick={() => handleModalOpening(v)}
                 className="absolute opacity-0 hover:opacity-40 duration-500 ease-in-out flex justify-center items-center bg-gray-500 w-full h-full z-10"
               >
                 <span className="text-5xl font-bold">...</span>
@@ -81,24 +86,25 @@ const ItemPage = (props) => {
         nodeRef={nodeRef}
         classNames="modal"
       >
-        <Modal ref={nodeRef} closing={() => setShowModal(false)}>
+        <Modal
+          ref={nodeRef}
+          closing={() => setShowModal(false)}
+          title={item?.name}
+        >
           <div className="flex flex-col px-1">
             <div className="flex flex-row space-x-2">
               <div className="w-24 h-36 sm:w-36 sm:h-36 bg-gray-500 rounded-xl mr-2 overflow-hidden">
                 <img
-                  src={`https://images.unsplash.com/photo-1520013573795-38516d2661e4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1107&q=80`}
+                  src={item?.image}
                   alt=""
                   className="h-full w-full object-cover object-center"
                 />
               </div>
               <div className="flex flex-col flex-1">
-                <div className="text-sm font-semibold">098765432123</div>
-                <div className="text-xs flex-1">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Inventore sunt, iusto et dolorum.
-                </div>
+                <div className="text-sm font-semibold">{item?.barcode}</div>
+                <div className="text-xs flex-1">{item?.description}</div>
                 <div className="w-full flex flex-row justify-between">
-                  <div className="text-base">10 pcs</div>
+                  <div className="text-base">{item?.quantity} pcs</div>
                   <div className="space-x-2">
                     <button className="px-2 py-1 bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-100 transition duration-300 focus:outline-none text-sm rounded-lg">
                       Take 1

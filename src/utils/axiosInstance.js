@@ -11,7 +11,7 @@ instance.interceptors.request.use(async (config) => {
   const { auth } = store.getState();
   if (auth.is_auth) {
     if (dayjs(auth.data.exp * 1000).diff(dayjs()) < 1) {
-      await axios
+      const result = await axios
         .post(
           `/auth/refresh`,
           {
@@ -35,13 +35,17 @@ instance.interceptors.request.use(async (config) => {
               data: data.data,
             },
           });
+          return data;
         })
         .catch((err) => {
           console.log(err);
+          return false;
         });
+      if (result)
+        config.headers.Authorization = `${result.token_type} ${result.access_token}`;
+    } else {
+      config.headers.Authorization = auth.access_token;
     }
-
-    config.headers.Authorization = auth.access_token;
   }
   return config;
 });

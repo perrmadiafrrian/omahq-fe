@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 
-const Modal = forwardRef(({ children, closing, ...props }, ref) => {
+const Modal = forwardRef(({ children, closing, title, ...props }, ref) => {
   return (
     <div
       ref={ref}
@@ -17,7 +17,7 @@ const Modal = forwardRef(({ children, closing, ...props }, ref) => {
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden filter drop-shadow-3xl transform transition-all w-full sm:max-w-lg my-8">
           <div className="pb-2 pt-1 flex flex-col">
             <div className="w-full mb-4 px-2">
-              <span className="text-2xl font-bold px-1">Odol</span>
+              <span className="text-2xl font-bold px-1">{title}</span>
               <button
                 onClick={() => closing()}
                 className="absolute right-0 mx-1 focus:outline-none hover:bg-red-200 active:bg-red-100 transition duration-500 ease-in-out hover:text-red-600 rounded-xl p-1"
@@ -49,6 +49,7 @@ const Modal = forwardRef(({ children, closing, ...props }, ref) => {
 
 Modal.defaultProps = {
   closing: () => {},
+  title: "",
 };
 
 export default Modal;
