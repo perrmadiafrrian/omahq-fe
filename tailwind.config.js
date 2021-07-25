@@ -39,6 +39,10 @@ module.exports = {
       dropShadow: {
         "3xl": "0 0 2rem rgba(0, 0, 0, 0.25)",
       },
+      skew: {
+        25: "25deg",
+        60: "60deg",
+      },
     },
   },
   variants: {

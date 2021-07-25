@@ -42,17 +42,29 @@ const ItemPage = (props) => {
     getItemsData();
   }, [id]);
 
-  const handleModalOpening = async (data) => {
+  useEffect(() => {
+    showModal && document.body.classList.add("overflow-hidden");
+    !showModal && document.body.classList.remove("overflow-hidden");
+  }, [showModal]);
+
+  const handleModalOpening = async (data, page = 0) => {
     setItem(data);
     setShowModal(true);
     setLoadingTransaction(true);
     await axiosInstance
-      .get(`/transaction/byitem/${data.id}`)
+      .get(`/transaction/byitem/${data.id}?type=ti&limit=20&page=${page}`)
       .then((res) => {
         setTransactions(res.data.transactions);
         setLoadingTransaction(false);
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleScroll = (e) => {
+    const target = e.target;
+    if (target.scrollHeight - target.scrollTop <= target.clientHeight + 0.5) {
+      console.log(`SCROLLED DOWN`);
+    }
   };
 
   return (
@@ -97,7 +109,7 @@ const ItemPage = (props) => {
       </div>
       <CSSTransition
         in={showModal}
-        timeout={300}
+        timeout={500}
         unmountOnExit
         nodeRef={nodeRef}
         classNames="modal"
@@ -132,7 +144,10 @@ const ItemPage = (props) => {
                 </div>
               </div>
             </div>
-            <div className="h-80 max-h-80 overflow-y-scroll bg-gray-300 mt-4 rounded-lg overflow-hidden">
+            <div
+              onScroll={handleScroll}
+              className="h-80 max-h-80 overflow-y-scroll bg-gray-300 mt-4 rounded-lg overflow-hidden"
+            >
               {loadingTransaction ? (
                 <div className="h-full w-full flex justify-center items-center">
                   <LoadingSpinner />
@@ -143,7 +158,7 @@ const ItemPage = (props) => {
                     {transactions.map((v, i) => {
                       return (
                         <tr key={i}>
-                          <td>{v.store.name}</td>
+                          <td>{v.store?.name}</td>
                           <td>{formatter.format(v.price)}</td>
                         </tr>
                       );
