@@ -50,6 +50,7 @@ module.exports = {
       backgroundColor: ["active"],
       filter: ["hover", "focus"],
       fontSize: ["hover", "focus"],
+      borderColor: ["active"],
     },
   },
   plugins: [],
