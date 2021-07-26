@@ -1,4 +1,4 @@
-import GoogleSignin from "../components/GoogleSignin";
+import { GoogleSignin } from "../components";
 
 const Login = (props) => {
   return (

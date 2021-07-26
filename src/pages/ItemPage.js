@@ -1,10 +1,8 @@
-import Navigation from "../components/Navigation";
-import Modal from "../components/Modal";
+import { Navigation, Modal, LoadingSpinner } from "../components";
 import { useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
-import LoadingSpinner from "../components/LoadingSpinner";
 
 const formatter = Intl.NumberFormat("id-ID", {
   style: "currency",
@@ -109,7 +107,7 @@ const ItemPage = (props) => {
       </div>
       <CSSTransition
         in={showModal}
-        timeout={500}
+        timeout={300}
         unmountOnExit
         nodeRef={nodeRef}
         classNames="modal"
