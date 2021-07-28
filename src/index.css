@@ -46,3 +46,15 @@
 .alert-exit-active {
   @apply transform scale-0 transition duration-200 ease-in-out;
 }
+.alert-icon-enter {
+  @apply opacity-0 transform scale-0;
+}
+.alert-icon-enter-active {
+  @apply opacity-100 transform scale-100 transition duration-200 ease-in-out;
+}
+.alert-icon-exit {
+  @apply opacity-100 transform scale-100;
+}
+.alert-icon-exit-active {
+  @apply opacity-0 transform scale-0 transition duration-200 ease-in-out;
+}

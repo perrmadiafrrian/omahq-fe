@@ -1,5 +1,6 @@
 import { useGoogleLogin } from "react-google-login";
-import googleIcon from "../icons/google.svg";
+import { FcGoogle } from "react-icons/fc";
+import { IconContext } from "react-icons";
 import axiosInstance from "../utils/axiosInstance";
 import { useDispatch } from "react-redux";
 import { AUTH_SET } from "../actions";
@@ -55,7 +56,9 @@ function GoogleSignin() {
       onClick={signIn}
       className="w-full text-blue-600 bg-white border-0 py-2 px-8 shadow-lg hover:bg-gray-300 active:bg-gray-100 focus:outline-none font-medium rounded text-xl relative"
     >
-      <img src={googleIcon} alt="Google Icon" className="w-8 left-4 absolute" />
+      <IconContext.Provider value={{ className: `w-8 h-8 left-4 absolute` }}>
+        <FcGoogle />
+      </IconContext.Provider>
       <span>Sign In</span>
     </button>
   );

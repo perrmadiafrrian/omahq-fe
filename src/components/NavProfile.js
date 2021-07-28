@@ -27,6 +27,7 @@ const NavProfile = (props) => {
               className="h-8 w-8 rounded-full"
               src="https://lh3.googleusercontent.com/ogw/ADea4I4MEreOB7k5NFiJl6BChAyid8lU1w6uXM4cicijfQ=s83-c-mo"
               alt=""
+              referrerPolicy="no-referrer"
             />
           </button>
         </div>

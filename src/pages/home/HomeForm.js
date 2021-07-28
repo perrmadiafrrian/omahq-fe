@@ -12,8 +12,7 @@ const HomeForm = ({
   cleanOnOpen,
   setHouses,
   addAlert,
-  houses,
-  ...props
+  onClose,
 }) => {
   const modalNewRef = useRef(null);
   const inputRef = useRef(null);
@@ -24,8 +23,9 @@ const HomeForm = ({
 
   useEffect(() => {
     if (cleanOnOpen) setNameValue("");
+    if (houseName) setNameValue(houseName);
     setRequiredFail(false);
-  }, [showModal, cleanOnOpen]);
+  }, [showModal, cleanOnOpen, houseName]);
 
   const handleNameChange = (e) => {
     setNameValue(e.target.value);
@@ -40,7 +40,39 @@ const HomeForm = ({
     setIsProcessing(true);
 
     if (editId) {
-      //TODO: Handle Edit
+      await axiosInstance
+        .patch(`/house/${editId}`, {
+          name: nameValue,
+        })
+        .then((res) => {
+          setHouses((houses) => {
+            const newHouses = [...houses];
+            newHouses.map((v, i) => {
+              if (v.id === editId) v.name = nameValue;
+              return v;
+            });
+            return newHouses;
+          });
+          addAlert({
+            message: `${res.data.name} has been successfully saved`,
+            title: `Success`,
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          if (err.response)
+            addAlert({
+              message: err.response.data,
+              title: err.response.statusText,
+              type: "failed",
+            });
+          else console.log(err);
+        })
+        .finally(() => {
+          setIsProcessing(false);
+          setShowModal(false);
+          onClose();
+        });
     } else {
       await axiosInstance
         .post(`/house`, {
@@ -66,6 +98,7 @@ const HomeForm = ({
         .finally(() => {
           setIsProcessing(false);
           setShowModal(false);
+          onClose();
         });
     }
   };
@@ -73,6 +106,7 @@ const HomeForm = ({
   const handleModalClosing = () => {
     if (!isProcessing) {
       setShowModal(false);
+      onClose();
     }
   };
 
@@ -146,6 +180,8 @@ HomeForm.defaultProps = {
   showModal: false,
   houseName: "",
   editId: null,
+  onClose: () => {},
+  addAlert: () => {},
 };
 
 export default HomeForm;

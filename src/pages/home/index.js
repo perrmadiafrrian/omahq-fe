@@ -1,6 +1,7 @@
 import { Navigation } from "../../components";
-import houseIcon from "../../icons/house.svg";
-import plusIcon from "../../icons/plus.svg";
+import { GiHouse } from "react-icons/gi";
+import { FaEdit, FaPlus } from "react-icons/fa";
+import { IconContext } from "react-icons";
 import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
 import { useContext, useEffect, useState } from "react";
@@ -8,12 +9,14 @@ import { useHistory } from "react-router-dom";
 import HomeForm from "./HomeForm";
 import AlertContext from "../../contexts/AlertContext";
 
-const Home = (props) => {
+const Home = () => {
   const auth = useSelector((state) => state.auth);
   const history = useHistory();
   const [houses, setHouses] = useState([]);
   const [showModalNew, setShowModalNew] = useState(false);
+  const [showModalEdit, setShowModalEdit] = useState(false);
   const { showAlert } = useContext(AlertContext);
+  const [editData, setEditData] = useState(null);
 
   const handleHouseClick = (id) => {
     history.push(`/house/${id}`);
@@ -30,23 +33,17 @@ const Home = (props) => {
     setHouses(c_houses);
   };
 
+  const handleHouseEdit = (house) => {
+    setEditData(house);
+  };
+
   const handleAddAlert = (newAlert) => {
     showAlert(newAlert);
   };
 
-  const handle = () =>
-    showAlert([
-      {
-        message: "One more alert to test",
-        title: "Test 2",
-        type: "fail",
-      },
-      {
-        message: "other alert",
-        title: "Test",
-        type: "info",
-      },
-    ]);
+  const handleEditClosing = () => {
+    setEditData(null);
+  };
 
   useEffect(() => {
     const fetchHouses = async () =>
@@ -67,6 +64,12 @@ const Home = (props) => {
     fetchHouses();
   }, [auth.data.id]);
 
+  useEffect(() => {
+    if (editData) {
+      setShowModalEdit(true);
+    }
+  }, [editData]);
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navigation />
@@ -76,30 +79,44 @@ const Home = (props) => {
             return (
               <button
                 key={i}
-                onClick={v.edit ? handle : () => handleHouseClick(v.id)}
+                onClick={
+                  v.edit
+                    ? () => handleHouseEdit(v)
+                    : () => handleHouseClick(v.id)
+                }
                 onContextMenu={(e) => handleHouseRighClick(e, i)}
                 onBlur={(e) => handleHouseRighClick(e, null)}
-                className="w-32 h-32 m-2 lg:w-40 lg:h-40 shadow-lg rounded-lg bg-white flex flex-col items-center justify-around hover:bg-gray-200 transition-colors duration-200 ease-in-out"
+                className={`w-32 h-32 m-2 lg:w-40 lg:h-40 shadow-lg  ${
+                  v.edit
+                    ? "text-yellow-400 hover:text-yellow-500"
+                    : "text-blue-400 hover:text-blue-500"
+                } rounded-lg bg-white flex flex-col items-center justify-around hover:bg-gray-200 transition-colors duration-200 ease-in-out`}
               >
-                {!v.edit ? (
-                  <img src={houseIcon} alt="" className="w-14 lg:w-20" />
-                ) : (
-                  <span className="text-2xl font-medium text-yellow-400">
-                    Edit?
-                  </span>
-                )}
-                <span className="text-base md:text-xl">{v.name}</span>
+                <IconContext.Provider
+                  value={{
+                    className: `w-14 h-14 lg:w-20 lg:h-20`,
+                  }}
+                >
+                  {v.edit ? <FaEdit /> : <GiHouse />}
+                </IconContext.Provider>
+                <span className="text-base font-medium md:text-xl">
+                  {v.name}
+                </span>
               </button>
             );
           })}
           <button
             onClick={() => setShowModalNew(true)}
-            className="w-32 h-32 m-2 lg:w-36 lg:h-36 lg:m-2 border-4 border-dashed border-gray-200 rounded-lg bg-gray-100 flex flex-col items-center justify-around focus:outline-none active:bg-gray-300 active:border-gray-300 hover:bg-gray-200 transition-colors duration-200 ease-in-out"
+            className="w-32 h-32 m-2 lg:w-40 lg:h-40 lg:m-2 text-gray-500 hover:text-gray-600 border-4 border-dashed border-gray-200 rounded-lg bg-gray-100 flex flex-col items-center justify-around focus:outline-none active:bg-gray-300 active:border-gray-300 hover:bg-gray-200 transition-colors duration-200 ease-in-out"
           >
-            <div className="text-blue-600">
-              <img src={plusIcon} alt="" className="w-14 lg:w-20" />
-            </div>
-            <span className="text-base md:text-xl">New House</span>
+            <IconContext.Provider
+              value={{
+                className: `w-14 h-14 lg:w-20 lg:h-20`,
+              }}
+            >
+              <FaPlus />
+            </IconContext.Provider>
+            <span className="text-base font-medium md:text-xl">New House</span>
           </button>
         </div>
       </div>
@@ -108,8 +125,16 @@ const Home = (props) => {
         showModal={showModalNew}
         cleanOnOpen
         setHouses={setHouses}
-        houses={houses}
         addAlert={handleAddAlert}
+      />
+      <HomeForm
+        setShowModal={setShowModalEdit}
+        showModal={showModalEdit}
+        editId={editData?.id}
+        houseName={editData?.name}
+        setHouses={setHouses}
+        addAlert={handleAddAlert}
+        onClose={handleEditClosing}
       />
     </div>
   );

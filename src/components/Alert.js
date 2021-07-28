@@ -1,6 +1,7 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { FaCheck, FaInfo, FaQuestion, FaExclamation } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import { CSSTransition } from "react-transition-group";
 
 const icons = {
   success: FaCheck,
@@ -16,45 +17,63 @@ const colors = {
   fail: "text-red-300",
 };
 
-const Alert = forwardRef(
-  ({ message, close, onClose, title, type, ...props }, ref) => {
-    const UsedIcon = icons[type] ?? false;
-    const used_color = colors[type];
+const Alert = forwardRef(({ message, close, onClose, title, type }, ref) => {
+  const UsedIcon = icons[type] ?? false;
+  const used_color = colors[type];
+  const [iconState, setIconState] = useState(false);
+  const iconRef = useRef(null);
 
-    const handleClosing = () => {
-      close();
-      onClose();
-    };
+  useEffect(() => {
+    setTimeout(() => {
+      console.log("effect");
+      setIconState(true);
+    }, 200);
+  }, [iconState]);
 
-    return (
+  const handleClosing = () => {
+    close();
+    onClose();
+  };
+
+  return (
+    <div
+      onClick={handleClosing}
+      className="absolute inset-0 bg-gray-500 bg-opacity-20 backdrop-filter backdrop-blur-sm flex z-50 justify-center items-start"
+      role="dialog"
+      aria-modal="true"
+    >
       <div
-        onClick={handleClosing}
-        className="absolute inset-0 bg-gray-500 bg-opacity-20 backdrop-filter backdrop-blur-sm flex z-50 justify-center items-start"
-        role="dialog"
-        aria-modal="true"
+        ref={ref}
+        className="bg-white w-full mx-4 sm:w-96 h-32 rounded-xl shadow-xl my-20 flex overflow-hidden"
       >
-        <div
-          ref={ref}
-          className="bg-white w-full mx-4 sm:w-96 h-32 rounded-xl shadow-xl my-20 flex overflow-hidden"
-        >
-          <div className="place-self-center mx-4">
-            {UsedIcon ? (
-              <IconContext.Provider
-                value={{ className: `animate-pulse ${used_color} w-20 h-20` }}
-              >
-                <UsedIcon />
-              </IconContext.Provider>
-            ) : undefined}
-          </div>
-          <div className="flex-1 flex flex-col items-start m-2 space-y-4">
-            <div className="text-lg font-medium">{title}</div>
-            <div className="text-xl font-bold">{message}</div>
+        <div className="place-self-center mx-4">
+          <div className="w-20 h-20">
+            <CSSTransition
+              in={iconState}
+              timeout={300}
+              unmountOnExit
+              classNames="alert-icon"
+            >
+              <div ref={iconRef}>
+                {UsedIcon ? (
+                  <IconContext.Provider
+                    value={{ className: `${used_color} w-full h-full` }}
+                  >
+                    <UsedIcon />
+                  </IconContext.Provider>
+                ) : undefined}
+              </div>
+            </CSSTransition>
           </div>
         </div>
+        <div className="flex-1 flex flex-col items-start m-2 space-y-4">
+          <div className="text-lg text-gray-600 font-medium">{title}</div>
+          <div className="text-xl text-gray-800 font-bold">{message}</div>
+        </div>
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 Alert.defaultProps = {
   close: () => {},

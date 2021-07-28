@@ -17,7 +17,7 @@ export const AlertContextProvider = ({ children }) => {
   const ref = useRef(null);
 
   const showAlert = (newAlert) => {
-    setCurrentOptions([...currentOptions, ...newAlert]);
+    setCurrentOptions([...currentOptions, newAlert]);
   };
 
   const handleClose = () => {
