@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# OmahQ (Front-End)
+
+OmahQ is a simple house consumable item managing system. This system is developed because of my concern when i go shopping for my household needs, i was buying item that actually already available at my house.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
