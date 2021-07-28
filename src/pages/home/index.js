@@ -1,27 +1,19 @@
-import { Alert, Navigation } from "../../components";
+import { Navigation } from "../../components";
 import houseIcon from "../../icons/house.svg";
 import plusIcon from "../../icons/plus.svg";
 import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
-import { useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import HomeForm from "./HomeForm";
-import { CSSTransition } from "react-transition-group";
+import AlertContext from "../../contexts/AlertContext";
 
 const Home = (props) => {
   const auth = useSelector((state) => state.auth);
   const history = useHistory();
   const [houses, setHouses] = useState([]);
   const [showModalNew, setShowModalNew] = useState(false);
-  const [alerts, setAlerts] = useState([
-    {
-      message: "Testing an Alert. Using a longer text",
-      title: "Test",
-      type: "success",
-    },
-  ]);
-  const [showAlert, setShowAlert] = useState(false);
-  const alertRef = useRef(null);
+  const { showAlert } = useContext(AlertContext);
 
   const handleHouseClick = (id) => {
     history.push(`/house/${id}`);
@@ -38,22 +30,23 @@ const Home = (props) => {
     setHouses(c_houses);
   };
 
-  const handleAlertClosing = (e) => {
-    setShowAlert(false);
-    const c_alert = [...alerts];
-    c_alert.shift();
-    setAlerts(c_alert);
-  };
-
   const handleAddAlert = (newAlert) => {
-    setAlerts([...alerts, newAlert]);
+    showAlert(newAlert);
   };
 
-  useEffect(() => {
-    if (alerts.length) {
-      setShowAlert(true);
-    }
-  }, [alerts]);
+  const handle = () =>
+    showAlert([
+      {
+        message: "One more alert to test",
+        title: "Test 2",
+        type: "fail",
+      },
+      {
+        message: "other alert",
+        title: "Test",
+        type: "info",
+      },
+    ]);
 
   useEffect(() => {
     const fetchHouses = async () =>
@@ -83,7 +76,7 @@ const Home = (props) => {
             return (
               <button
                 key={i}
-                onClick={() => handleHouseClick(v.id)}
+                onClick={v.edit ? handle : () => handleHouseClick(v.id)}
                 onContextMenu={(e) => handleHouseRighClick(e, i)}
                 onBlur={(e) => handleHouseRighClick(e, null)}
                 className="w-32 h-32 m-2 lg:w-40 lg:h-40 shadow-lg rounded-lg bg-white flex flex-col items-center justify-around hover:bg-gray-200 transition-colors duration-200 ease-in-out"
@@ -118,21 +111,6 @@ const Home = (props) => {
         houses={houses}
         addAlert={handleAddAlert}
       />
-      <CSSTransition
-        in={showAlert}
-        unmountOnExit
-        timeout={200}
-        classNames="alert"
-        nodeRef={alertRef}
-      >
-        <Alert
-          ref={alertRef}
-          message={alerts.length ? alerts[0].message : ``}
-          title={alerts.length ? alerts[0].title : ``}
-          type={alerts.length ? alerts[0].type : ``}
-          close={handleAlertClosing}
-        />
-      </CSSTransition>
     </div>
   );
 };
