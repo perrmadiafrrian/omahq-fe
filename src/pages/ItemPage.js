@@ -77,11 +77,11 @@ const ItemPage = (props) => {
             </button>
           </div>
         </div>
-        <div className="w-full flex flex-col md:flex-row flex-wrap justify-center space-y-6 md:space-y-0 md:space-x-6 items-center">
+        <div className="w-full flex flex-col sm:flex-row flex-wrap justify-center items-center">
           {items.map((v, i) => (
             <div
               key={i}
-              className="w-80 h-36 relative overflow-hidden bg-white shadow-md rounded-2xl flex justify-items-center"
+              className="w-80 h-36 sm:m-3 m-2 relative overflow-hidden bg-white shadow-md rounded-2xl flex justify-items-center"
             >
               <div className="w-36 h-full bg-gray-500 rounded-l-xl mr-2 overflow-hidden">
                 <img
@@ -110,7 +110,7 @@ const ItemPage = (props) => {
         timeout={300}
         unmountOnExit
         nodeRef={nodeRef}
-        classNames="modal"
+        classNames="modal-lg"
       >
         <Modal
           ref={nodeRef}

@@ -11,6 +11,7 @@ const HomeForm = ({
   houseName,
   cleanOnOpen,
   setHouses,
+  addAlert,
   houses,
   ...props
 }) => {
@@ -47,7 +48,20 @@ const HomeForm = ({
           owner_id: auth.data.id,
         })
         .then((res) => {
+          res.data.edit = false;
           setHouses((houses) => [...houses, res.data]);
+          addAlert({
+            message: `${res.data.name} has been successfully saved`,
+            title: `Success`,
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          addAlert({
+            message: err.response.data,
+            title: err.response.statusText,
+            type: "failed",
+          });
         })
         .finally(() => {
           setIsProcessing(false);
@@ -74,7 +88,7 @@ const HomeForm = ({
         width="sm"
         ref={modalNewRef}
         closing={handleModalClosing}
-        title={`New House`}
+        title={editId ? `Edit House` : `New House`}
       >
         <div className="flex flex-col px-1">
           <InputGroup label="House Name">

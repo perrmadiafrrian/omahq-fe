@@ -4,7 +4,7 @@
 
 .modal-enter {
   @apply opacity-0 transition;
-  transform: scaleX(0.1) scaleY(0.1) rotateX(80deg);
+  transform: perspective(60px) rotateX(-80deg) scale3d(0.1, 0.1, 1);
 }
 .modal-enter-active {
   @apply opacity-100 transition duration-300;
@@ -15,6 +15,34 @@
   transform: rotateX(0deg) scaleX(1) scaleX(1);
 }
 .modal-exit-active {
-  @apply opacity-0 duration-500;
-  transform: rotateX(80deg) scaleX(0.1) scaleY(0.1);
+  @apply opacity-0 duration-300;
+  transform: perspective(60px) rotateX(80deg) scaleX(0.1) scaleY(0.1);
+}
+.modal-lg-enter {
+  @apply opacity-0 transition;
+  transform: perspective(200px) rotateX(-80deg) scale3d(0.1, 0.1, 1);
+}
+.modal-lg-enter-active {
+  @apply opacity-100 transition duration-300;
+  transform: rotateX(0deg);
+}
+.modal-lg-exit {
+  @apply opacity-100;
+  transform: rotateX(0deg) scaleX(1) scaleX(1);
+}
+.modal-lg-exit-active {
+  @apply opacity-0 duration-300;
+  transform: perspective(200px) rotateX(80deg) scaleX(0.1) scaleY(0.1);
+}
+.alert-enter {
+  @apply transform scale-0;
+}
+.alert-enter-active {
+  @apply transform scale-100 transition duration-200 ease-in-out;
+}
+.alert-exit {
+  @apply transform scale-100;
+}
+.alert-exit-active {
+  @apply transform scale-0 transition duration-200 ease-in-out;
 }
