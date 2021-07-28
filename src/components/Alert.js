@@ -25,7 +25,6 @@ const Alert = forwardRef(({ message, close, onClose, title, type }, ref) => {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log("effect");
       setIconState(true);
     }, 200);
   }, [iconState]);
