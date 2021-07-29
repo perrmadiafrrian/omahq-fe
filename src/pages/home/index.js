@@ -89,7 +89,7 @@ const Home = () => {
                 className={`w-32 h-32 m-2 lg:w-40 lg:h-40 shadow-lg  ${
                   v.edit
                     ? "text-yellow-400 hover:text-yellow-500"
-                    : "text-blue-400 hover:text-blue-500"
+                    : "text-blue-500 hover:text-blue-600"
                 } rounded-lg bg-white flex flex-col items-center justify-around hover:bg-gray-200 transition-colors duration-200 ease-in-out`}
               >
                 <IconContext.Provider

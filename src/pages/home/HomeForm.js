@@ -3,6 +3,7 @@ import { Modal, Input, InputGroup } from "../../components";
 import { useEffect, useRef, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
+import errorResponseHandler from "../../utils/errorResponseHandler";
 
 const HomeForm = ({
   showModal,
@@ -60,13 +61,9 @@ const HomeForm = ({
           });
         })
         .catch((err) => {
-          if (err.response)
-            addAlert({
-              message: err.response.data,
-              title: err.response.statusText,
-              type: "fail",
-            });
-          else console.log(err);
+          if (err.response) {
+            errorResponseHandler(err.response, addAlert);
+          } else console.log(err);
         })
         .finally(() => {
           setIsProcessing(false);
@@ -89,11 +86,9 @@ const HomeForm = ({
           });
         })
         .catch((err) => {
-          addAlert({
-            message: err.response.data,
-            title: err.response.statusText,
-            type: "failed",
-          });
+          if (err.response) {
+            errorResponseHandler(err.response, addAlert);
+          } else console.log(err);
         })
         .finally(() => {
           setIsProcessing(false);

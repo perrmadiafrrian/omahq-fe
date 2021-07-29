@@ -6,7 +6,7 @@ import { AUTH_INVALIDATE } from "../actions";
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
-const GoogleSignout = (props) => {
+const GoogleSignout = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
