@@ -8,7 +8,6 @@ const Input = forwardRef(
     const inputType = type ?? "text";
     const fails = requiredFail ? `border-red-300` : ``;
 
-    //TODO: handle required, extra class
     return (
       <input
         ref={ref}

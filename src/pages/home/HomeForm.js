@@ -15,8 +15,8 @@ const HomeForm = ({
   addAlert,
   onClose,
 }) => {
-  const modalNewRef = useRef(null);
-  const inputRef = useRef(null);
+  const modalRef = useRef(null);
+  const inputRef = useRef();
   const [nameValue, setNameValue] = useState(houseName);
   const [isProcessing, setIsProcessing] = useState(false);
   const [requiredFail, setRequiredFail] = useState(false);
@@ -27,6 +27,10 @@ const HomeForm = ({
     if (houseName) setNameValue(houseName);
     setRequiredFail(false);
   }, [showModal, cleanOnOpen, houseName]);
+
+  useEffect(() => {
+    if (showModal) inputRef?.current?.focus();
+  }, [showModal, inputRef]);
 
   const handleNameChange = (e) => {
     setNameValue(e.target.value);
@@ -110,12 +114,12 @@ const HomeForm = ({
       in={showModal}
       timeout={300}
       unmountOnExit
-      nodeRef={modalNewRef}
+      nodeRef={modalRef}
       classNames="modal"
     >
       <Modal
         width="sm"
-        ref={modalNewRef}
+        ref={modalRef}
         closing={handleModalClosing}
         title={editId ? `Edit House` : `New House`}
       >
