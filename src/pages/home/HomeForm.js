@@ -64,7 +64,7 @@ const HomeForm = ({
             addAlert({
               message: err.response.data,
               title: err.response.statusText,
-              type: "failed",
+              type: "fail",
             });
           else console.log(err);
         })
