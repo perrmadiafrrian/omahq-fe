@@ -102,9 +102,9 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
             ) : undefined}
             <div
               onScroll={handleScroll}
-              className="h-full w-full overflow-y-scroll  overflow-x-hidden"
+              className="h-full px-2 py-1 overflow-y-scroll"
             >
-              <table className="w-full m-2">
+              <table className="w-full">
                 <tbody>
                   {transactions.map((v, i) => {
                     return (

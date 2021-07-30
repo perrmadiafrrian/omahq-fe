@@ -10,6 +10,7 @@ const ItemPage = () => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
   const { id } = useParams();
+  const [stickyHeader, setStickyHeader] = useState(false);
 
   useEffect(() => {
     const getHouseData = async () => {
@@ -42,11 +43,33 @@ const ItemPage = () => {
     setShowModal(true);
   };
 
+  useEffect(() => {
+    const scrollListener = () => {
+      const window_scroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      if (window_scroll > 64) {
+        setStickyHeader(true);
+      } else {
+        setStickyHeader(false);
+      }
+    };
+
+    window.addEventListener("scroll", scrollListener);
+
+    return () => {
+      window.removeEventListener("scroll", scrollListener);
+    };
+  }, []);
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navigation />
-      <div className="flex flex-col">
-        <div className="pt-6 pb-4 mb-4 bg-indigo-50 px-6 w-full flex justify-between shadow">
+      <div className={`flex flex-col`}>
+        <div
+          className={`pt-6 pb-4 mb-4 bg-indigo-50 px-6 w-full flex justify-between shadow ${
+            stickyHeader ? "sticky top-0 z-20" : ""
+          }`}
+        >
           <div className="px-6 md:px-16 text-2xl font-bold">{house?.name}</div>
           <div className="px-6 md:px-16">
             <button className="bg-green-500 hover:bg-green-600 duration-300 ease-in-out text-center rounded-lg text-sm py-2 px-4 text-white">
