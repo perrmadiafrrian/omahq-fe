@@ -1,8 +1,9 @@
 import { Navigation } from "../../components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
-import ItemPopUp from "./ItemPopUp";
+const ItemPopUp = lazy(() => import("./ItemPopUp"));
+const ItemButton = lazy(() => import("./ItemButton"));
 
 const ItemPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -79,33 +80,11 @@ const ItemPage = () => {
         </div>
         <div className="w-full flex flex-col sm:flex-row flex-wrap justify-center items-center">
           {items.map((v, i) => (
-            <div
+            <ItemButton
               key={i}
-              className="w-80 h-36 sm:m-3 m-2 relative overflow-hidden bg-white shadow-md rounded-2xl flex justify-items-center"
-            >
-              <div className="w-36 h-full bg-gray-500 rounded-l-xl mr-2 overflow-hidden">
-                <img
-                  src={v.image}
-                  alt=""
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="rounded-xl max-w-10 flex flex-col justify-between h-full">
-                <span className="text-lg font-bold">{v.name}</span>
-                <span className="text-sm mb-3">
-                  {v.description.length > 40
-                    ? `${v.description.substr(0, 38)}..`
-                    : v.description}
-                </span>
-                <span className="text-sm pb-2">{`${v.quantity} pcs`}</span>
-              </div>
-              <button
-                onClick={() => handleModalOpening(v)}
-                className="absolute opacity-0 hover:opacity-40 duration-500 ease-in-out flex justify-center items-center bg-gray-500 w-full h-full z-10"
-              >
-                <span className="text-5xl font-bold">...</span>
-              </button>
-            </div>
+              data={v}
+              onClick={() => handleModalOpening(v)}
+            />
           ))}
         </div>
       </div>
