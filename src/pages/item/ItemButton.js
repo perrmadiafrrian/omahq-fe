@@ -2,8 +2,9 @@ import {
   LazyLoadImage,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
+import { forwardRef } from "react";
 
-const ItemButton = ({ data, onClick, scrollPosition }) => {
+const ItemButton = forwardRef(({ data, onClick, scrollPosition }, ref) => {
   return (
     <div className="w-80 h-36 sm:m-3 m-2 relative overflow-hidden bg-white shadow-md rounded-2xl flex justify-items-center">
       <div className="w-36 h-full bg-gray-500 rounded-l-xl mr-2 overflow-hidden">
@@ -20,7 +21,7 @@ const ItemButton = ({ data, onClick, scrollPosition }) => {
         />
       </div>
       <div className="rounded-xl max-w-10 flex flex-col justify-between h-full">
-        <span className="text-lg font-bold">{data.name}</span>
+        <span className="text-md font-bold">{data.name}</span>
         <span className="text-sm mb-3">
           {data.description.length > 40
             ? `${data.description.substr(0, 38)}..`
@@ -36,6 +37,6 @@ const ItemButton = ({ data, onClick, scrollPosition }) => {
       </button>
     </div>
   );
-};
+});
 
 export default trackWindowScroll(ItemButton);
