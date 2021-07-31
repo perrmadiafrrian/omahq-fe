@@ -1,8 +1,10 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { useInView } from "react-intersection-observer";
 import { CSSTransition } from "react-transition-group";
 import { Modal, LoadingSpinner } from "../../components";
 import axiosInstance from "../../utils/axiosInstance";
 
+// Currency Formatter for transaction price
 const formatter = Intl.NumberFormat("id-ID", {
   style: "currency",
   currency: "IDR",
@@ -15,40 +17,57 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
   const transactionContainerRef = useRef();
   const [transactions, setTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const { ref, inView } = useInView({ threshold: 0 });
 
+  /**
+   * Handle Fetching Transaction Data.
+   * Fetch data on item selected changes,
+   * modal opened, or load more.
+   */
   useEffect(() => {
     const fetchTransaction = async () =>
       await axiosInstance
         .get(
-          `/transaction/byitem/${item?.id}?type=ti&limit=15&page=${currentPage}`
+          `/transaction/byitem/${item?.id}?type=ti&limit=20&page=${currentPage}`
         )
         .then(({ data }) => {
           setTransactions((transaction) => [
-            ...transaction.filter((v, i) => {
-              if (data.transactions.find((el) => el.id === v.id)) return false;
+            ...transaction,
+            ...data.transactions.filter((v, i) => {
+              if (transaction.find((el) => el.id === v.id)) return false;
               return v.id;
             }),
-            ...data.transactions,
           ]);
           setHasMore(data.has_more);
           setLoadingTransaction(false);
         })
         .catch((err) => console.log(err));
 
+    // Only load data if this component is shown
     if (showModal) {
       setLoadingTransaction(true);
       fetchTransaction();
     }
   }, [currentPage, item, showModal]);
 
-  const handleScroll = async (e) => {
-    const target = e.target;
-    if (target.scrollHeight - target.scrollTop <= target.clientHeight + 0.5) {
-      if (!loadingTransaction && hasMore) {
-        setCurrentPage(currentPage + 1);
-      }
+  /**
+   * Determine if item has more transaction
+   * then load more transaction data if `true`
+   */
+  const handleLoadMore = useCallback(() => {
+    if (!loadingTransaction && hasMore) {
+      setCurrentPage((page) => page + 1);
     }
-  };
+  }, [loadingTransaction, hasMore]);
+
+  /**
+   * Checking if user reaching to the
+   * bottom of the data then calling
+   * `handleLoadMore` if its true
+   */
+  useEffect(() => {
+    if (inView) handleLoadMore();
+  }, [inView, handleLoadMore]);
 
   const handleModalClosing = () => {
     setShowModal(false);
@@ -100,10 +119,7 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
                 <LoadingSpinner />
               </div>
             ) : undefined}
-            <div
-              onScroll={handleScroll}
-              className="h-full px-2 py-1 overflow-y-scroll"
-            >
+            <div className="h-full px-2 py-1 overflow-y-scroll">
               <table className="w-full">
                 <tbody>
                   {transactions.map((v, i) => {
@@ -114,6 +130,7 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
                       </tr>
                     );
                   })}
+                  <tr ref={ref}></tr>
                 </tbody>
               </table>
             </div>

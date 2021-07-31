@@ -3,6 +3,7 @@ import { useEffect, useState, lazy, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { useInView } from "react-intersection-observer";
+import BarcodeScannerComponent from "react-qr-barcode-scanner";
 const ItemPopUp = lazy(() => import("./ItemPopUp"));
 const ItemButton = lazy(() => import("./ItemButton"));
 
@@ -17,6 +18,7 @@ const ItemPage = () => {
   const { id } = useParams();
   const [stickyHeader, setStickyHeader] = useState(false);
   const { ref, inView } = useInView({ threshold: 0 });
+  const [showScanner, setShowScanner] = useState(false);
 
   useEffect(() => {
     const getHouseData = async () => {
@@ -101,7 +103,10 @@ const ItemPage = () => {
             {house?.name}
           </div>
           <div className="px-6 sm:px-16">
-            <button className="bg-green-500 hover:bg-green-600 duration-300 ease-in-out text-center rounded-lg text-sm py-2 px-4 text-white">
+            <button
+              onClick={() => setShowScanner(true)}
+              className="bg-green-500 hover:bg-green-600 duration-300 ease-in-out text-center rounded-lg text-sm py-2 px-4 text-white"
+            >
               Scan
             </button>
           </div>
@@ -122,6 +127,18 @@ const ItemPage = () => {
         setShowModal={setShowModal}
         item={item}
       />
+      {showScanner ? (
+        <BarcodeScannerComponent
+          width={500}
+          height={500}
+          onUpdate={(err, result) => {
+            if (result) {
+              alert(result.text);
+              setShowScanner(false);
+            }
+          }}
+        />
+      ) : undefined}
     </div>
   );
 };
