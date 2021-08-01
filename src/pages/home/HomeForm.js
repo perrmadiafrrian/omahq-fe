@@ -5,6 +5,14 @@ import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
 import errorResponseHandler from "../../utils/errorResponseHandler";
 
+/**
+ * Form for editing or creating new house data
+ * which gonna show a modal consisting of an
+ * input for house's name
+ *
+ * @param {Object} props form property
+ * @returns Form component to be rendered
+ */
 const HomeForm = ({
   showModal,
   setShowModal,
@@ -22,24 +30,47 @@ const HomeForm = ({
   const [requiredFail, setRequiredFail] = useState(false);
   const auth = useSelector((state) => state.auth);
 
+  /**
+   * On modal showing, its going to check
+   * if input should be cleared and check
+   * if the house name is available, set
+   * the input to the house name if it is
+   * available
+   */
   useEffect(() => {
     if (cleanOnOpen) setNameValue("");
     if (houseName) setNameValue(houseName);
     setRequiredFail(false);
   }, [showModal, cleanOnOpen, houseName]);
 
+  /**
+   * Focusing to the input on modal shown
+   */
   useEffect(() => {
     if (showModal) inputRef?.current?.focus();
   }, [showModal, inputRef]);
 
+  /**
+   * Set the name state based on the input
+   * changes
+   *
+   * @param {Event} e input change event
+   */
   const handleNameChange = (e) => {
     setNameValue(e.target.value);
   };
 
+  /**
+   * Handling the submit event for the form
+   * checking if the form is an edit form
+   * or a new form
+   *
+   * @returns boolean
+   */
   const handleSubmitData = async () => {
     if (nameValue === "" || nameValue === undefined) {
       setRequiredFail(true);
-      return;
+      return false;
     }
 
     setIsProcessing(true);
@@ -100,8 +131,14 @@ const HomeForm = ({
           onClose();
         });
     }
+
+    return true;
   };
 
+  /**
+   * Handle the modal closing event, modal going
+   * to be closed if the form is not in processing
+   */
   const handleModalClosing = () => {
     if (!isProcessing) {
       setShowModal(false);
@@ -174,6 +211,7 @@ const HomeForm = ({
   );
 };
 
+//Setting the default props for the form
 HomeForm.defaultProps = {
   setShowModal: () => {},
   showModal: false,

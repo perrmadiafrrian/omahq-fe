@@ -9,6 +9,13 @@ import { useHistory } from "react-router-dom";
 import HomeForm from "./HomeForm";
 import AlertContext from "../../contexts/AlertContext";
 
+/**
+ * Home page that shows the user's available
+ * houses, user can create and edit the house
+ * name
+ *
+ * @returns houses component to be rendered
+ */
 const Home = () => {
   const auth = useSelector((state) => state.auth);
   const history = useHistory();
@@ -18,11 +25,26 @@ const Home = () => {
   const { showAlert } = useContext(AlertContext);
   const [editData, setEditData] = useState(null);
 
+  /**
+   * Handle the house link that change
+   * page location to house with the
+   * given house's id
+   *
+   * @param {Number} id
+   */
   const handleHouseClick = (id) => {
     history.push(`/house/${id}`);
   };
 
-  const handleHouseRighClick = (e, id) => {
+  /**
+   * Handling the house right click event
+   * to change house action to become an
+   * edit action for the house
+   *
+   * @param {Event} e
+   * @param {Number} id
+   */
+  const handleHouseRightClick = (e, id) => {
     e.preventDefault();
     const c_houses = [...houses];
     c_houses.map((v, i) => {
@@ -33,18 +55,38 @@ const Home = () => {
     setHouses(c_houses);
   };
 
+  /**
+   * Handling the house edit action
+   * to change the edited house data
+   *
+   * @param {Object} house house data
+   */
   const handleHouseEdit = (house) => {
     setEditData(house);
   };
 
+  /**
+   * Handling the alert to be showing the
+   * given alert data
+   *
+   * @param {Object} newAlert alert data
+   */
   const handleAddAlert = (newAlert) => {
     showAlert(newAlert);
   };
 
+  /**
+   * Handling the edit on close event
+   * to set the edit data to be null
+   */
   const handleEditClosing = () => {
     setEditData(null);
   };
 
+  /**
+   * Fetch house data everytime
+   * the user load the page
+   */
   useEffect(() => {
     const fetchHouses = async () =>
       await axiosInstance
@@ -64,6 +106,11 @@ const Home = () => {
     fetchHouses();
   }, [auth.data.id]);
 
+  /**
+   * On `editData` changes, it will check if
+   * `editData` is empty or not, then show
+   * the modal if `editData` is available
+   */
   useEffect(() => {
     if (editData) {
       setShowModalEdit(true);
@@ -84,8 +131,8 @@ const Home = () => {
                     ? () => handleHouseEdit(v)
                     : () => handleHouseClick(v.id)
                 }
-                onContextMenu={(e) => handleHouseRighClick(e, i)}
-                onBlur={(e) => handleHouseRighClick(e, null)}
+                onContextMenu={(e) => handleHouseRightClick(e, i)}
+                onBlur={(e) => handleHouseRightClick(e, null)}
                 className={`w-32 h-32 m-2 lg:w-40 lg:h-40 shadow-lg  ${
                   v.edit
                     ? "text-yellow-400 hover:text-yellow-500"
