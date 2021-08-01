@@ -10,6 +10,12 @@ const formatter = Intl.NumberFormat("id-ID", {
   currency: "IDR",
 });
 
+/**
+ * Modal for item detail including its transaction
+ *
+ * @param {Object} props Component props
+ * @returns Modal component to be rendered
+ */
 const ItemPopUp = ({ item, showModal, setShowModal }) => {
   const [loadingTransaction, setLoadingTransaction] = useState(false);
   const [hasMore, setHasMore] = useState(false);
@@ -69,6 +75,9 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
     if (inView) handleLoadMore();
   }, [inView, handleLoadMore]);
 
+  /**
+   * Handling on this pop-up is closing
+   */
   const handleModalClosing = () => {
     setShowModal(false);
     setHasMore(false);

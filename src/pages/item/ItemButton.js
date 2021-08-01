@@ -4,9 +4,15 @@ import {
 } from "react-lazy-load-image-component";
 import { forwardRef } from "react";
 
+/**
+ * Item button component fo the item page
+ */
 const ItemButton = forwardRef(({ data, onClick, scrollPosition }, ref) => {
   return (
-    <div className="w-80 h-36 sm:m-3 m-2 relative overflow-hidden bg-white shadow-md rounded-2xl flex justify-items-center">
+    <div
+      ref={ref}
+      className="w-80 h-36 sm:m-3 m-2 relative overflow-hidden bg-white shadow-md rounded-2xl flex justify-items-center"
+    >
       <div className="w-36 h-full bg-gray-500 rounded-l-xl mr-2 overflow-hidden">
         <LazyLoadImage
           src={data.image}

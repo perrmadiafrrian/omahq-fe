@@ -3,10 +3,17 @@ import { useEffect, useState, lazy, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { useInView } from "react-intersection-observer";
-import BarcodeScannerComponent from "react-qr-barcode-scanner";
+const BarcodeScan = lazy(() => import("./BarcodeScan"));
+const NewItem = lazy(() => import("./NewItem"));
 const ItemPopUp = lazy(() => import("./ItemPopUp"));
 const ItemButton = lazy(() => import("./ItemButton"));
 
+/**
+ * Item page of the selected house. This page
+ * going to show all the items in the selected house
+ *
+ * @returns Item page component to be rendered
+ */
 const ItemPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [house, setHouse] = useState({});
@@ -19,16 +26,14 @@ const ItemPage = () => {
   const [stickyHeader, setStickyHeader] = useState(false);
   const { ref, inView } = useInView({ threshold: 0 });
   const [showScanner, setShowScanner] = useState(false);
+  const [newBarcode, setNewBarcode] = useState(null);
+  const [showNewForm, setShowNewForm] = useState(null);
 
+  /**
+   * Fetching items in the selected house
+   * it will load next page if it is available
+   */
   useEffect(() => {
-    const getHouseData = async () => {
-      await axiosInstance
-        .get(`/house/${id}`)
-        .then((res) => {
-          setHouse(res.data);
-        })
-        .catch((err) => console.log(err));
-    };
     const getItemsData = async () => {
       setItemLoading(true);
       await axiosInstance
@@ -46,20 +51,48 @@ const ItemPage = () => {
         })
         .catch((err) => console.log(err));
     };
-    getHouseData();
     getItemsData();
   }, [id, itemPage]);
 
+  /**
+   * Fetching house data on page loaded
+   */
+  useEffect(() => {
+    const getHouseData = async () => {
+      await axiosInstance
+        .get(`/house/${id}`)
+        .then((res) => {
+          setHouse(res.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    getHouseData();
+  }, [id]);
+
+  /**
+   * Remove or hide scrollbar for the body
+   * if the modal is shown
+   */
   useEffect(() => {
     showModal && document.body.classList.add("overflow-hidden");
     !showModal && document.body.classList.remove("overflow-hidden");
   }, [showModal]);
 
-  const handleModalOpening = async (data) => {
+  /**
+   * Handle to show item data detail, including
+   * its transaction that has been done
+   *
+   * @param {Object} data Item data
+   */
+  const handleModalOpening = (data) => {
     setItem(data);
     setShowModal(true);
   };
 
+  /**
+   * Handle to set the header to be sticky
+   * on scrolled down after the navigation
+   */
   useEffect(() => {
     const scrollListener = () => {
       const window_scroll =
@@ -78,15 +111,51 @@ const ItemPage = () => {
     };
   }, []);
 
+  /**
+   * Setting item's page to be incremented
+   * if it has more page
+   */
   const handleLoadMore = useCallback(() => {
     if (!itemLoading && hasMore) {
       setItemPage((currentPage) => currentPage + 1);
     }
   }, [itemLoading, hasMore]);
 
+  /**
+   * if user scrolled down enough to the
+   * bottom of the transaction data, it
+   * will load more data
+   */
   useEffect(() => {
     if (inView) handleLoadMore();
   }, [inView, handleLoadMore]);
+
+  /**
+   * Handling after barcode getting scanned
+   * getting the barcode to fetch item data
+   *
+   * @param {Object} result barcode scan result
+   */
+  const handleScanned = async (result) => {
+    setShowScanner(false);
+
+    //TODO: LOADING STATE
+    if (result) {
+      await axiosInstance
+        .get(`/item/barcode/${encodeURI(result.text)}/house/${id}`)
+        .then((res) => {
+          handleModalOpening(res.data);
+        })
+        .catch(({ response }) => {
+          // If response status is `400` then open
+          // the new item form
+          if (response.status === 400) {
+            setNewBarcode(result.text);
+            setShowNewForm(true);
+          }
+        });
+    }
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -127,18 +196,12 @@ const ItemPage = () => {
         setShowModal={setShowModal}
         item={item}
       />
-      {showScanner ? (
-        <BarcodeScannerComponent
-          width={500}
-          height={500}
-          onUpdate={(err, result) => {
-            if (result) {
-              alert(result.text);
-              setShowScanner(false);
-            }
-          }}
-        />
-      ) : undefined}
+      <BarcodeScan showScanner={showScanner} onScanned={handleScanned} />
+      <NewItem
+        shown={showNewForm}
+        barcode={newBarcode}
+        onClose={() => setShowNewForm(false)}
+      />
     </div>
   );
 };
