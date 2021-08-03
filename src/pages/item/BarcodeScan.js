@@ -40,7 +40,7 @@ const BarcodeScan = ({ showScanner, onScanned }) => {
    * @param {Event} e input change event
    */
   const handleChange = (e) => {
-    setInput(e.target.value);
+    setInput(e.target.value.replace(/\D/, ""));
   };
 
   /**
@@ -56,7 +56,13 @@ const BarcodeScan = ({ showScanner, onScanned }) => {
   };
 
   return (
-    <CSSTransition nodeRef={ref} in={showScanner} timeout={300} unmountOnExit>
+    <CSSTransition
+      nodeRef={ref}
+      in={showScanner}
+      timeout={300}
+      classNames="modal"
+      unmountOnExit
+    >
       <div className="fixed z-40 inset-0 flex justify-center items-center">
         <div
           onClick={() => {
@@ -78,6 +84,7 @@ const BarcodeScan = ({ showScanner, onScanned }) => {
                 onChange={handleChange}
                 value={input}
                 ref={inputRef}
+                pattern="[0-9]*"
               />
             </div>
           ) : (

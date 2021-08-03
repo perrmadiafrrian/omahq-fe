@@ -6,7 +6,7 @@ export default function errorResponseHandler(response, addAlert = () => {}) {
         errors.forEach((v, i) => {
           addAlert({
             message: v.message,
-            title: errors.response.statusText,
+            title: response.statusText,
             type: "fail",
           });
         });

@@ -34,7 +34,7 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
     const fetchTransaction = async () =>
       await axiosInstance
         .get(
-          `/transaction/byitem/${item?.id}?type=ti&limit=20&page=${currentPage}`
+          `/transaction/byitem/${item?.id}?type=all&limit=20&page=${currentPage}`
         )
         .then(({ data }) => {
           setTransactions((transaction) => [
@@ -51,7 +51,6 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
 
     // Only load data if this component is shown
     if (showModal) {
-      setLoadingTransaction(true);
       fetchTransaction();
     }
   }, [currentPage, item, showModal]);
@@ -62,6 +61,7 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
    */
   const handleLoadMore = useCallback(() => {
     if (!loadingTransaction && hasMore) {
+      setLoadingTransaction(true);
       setCurrentPage((page) => page + 1);
     }
   }, [loadingTransaction, hasMore]);
@@ -72,7 +72,9 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
    * `handleLoadMore` if its true
    */
   useEffect(() => {
-    if (inView) handleLoadMore();
+    if (inView) {
+      handleLoadMore();
+    }
   }, [inView, handleLoadMore]);
 
   /**

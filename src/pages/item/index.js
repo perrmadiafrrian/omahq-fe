@@ -85,6 +85,7 @@ const ItemPage = () => {
    * @param {Object} data Item data
    */
   const handleModalOpening = (data) => {
+    setShowNewForm(false);
     setItem(data);
     setShowModal(true);
   };
@@ -200,7 +201,8 @@ const ItemPage = () => {
       <NewItem
         shown={showNewForm}
         barcode={newBarcode}
-        onClose={() => setShowNewForm(false)}
+        houseId={id}
+        onClose={(data) => handleModalOpening(data)}
       />
     </div>
   );
