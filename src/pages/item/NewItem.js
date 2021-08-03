@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { Input, InputGroup, Modal } from "../../components";
 import TextArea from "../../components/TextArea";
@@ -23,6 +23,7 @@ const defaultForm = {
  */
 const NewItem = ({ shown, barcode, onSubmit, onClose, houseId }) => {
   const modalRef = useRef();
+  const inputRef = useRef();
   const { showAlert } = useContext(AlertContext);
   const [form, setForm] = useState({
     ...defaultForm,
@@ -74,10 +75,13 @@ const NewItem = ({ shown, barcode, onSubmit, onClose, houseId }) => {
         onClose(data);
       })
       .catch(({ response }) => {
-        console.log(response);
         errorResponseHandler(response, showAlert);
       });
   };
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [shown]);
 
   return (
     <div>
@@ -91,6 +95,7 @@ const NewItem = ({ shown, barcode, onSubmit, onClose, houseId }) => {
         <Modal title="New Item" ref={modalRef} closing={onClose}>
           <InputGroup label={`Item Name`}>
             <Input
+              ref={inputRef}
               onChange={(e) => handleChange(e, "name")}
               placeholder={`Item Name`}
             />

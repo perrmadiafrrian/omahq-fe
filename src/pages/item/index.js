@@ -87,7 +87,7 @@ const ItemPage = () => {
   const handleModalOpening = (data) => {
     setShowNewForm(false);
     setItem(data);
-    setShowModal(true);
+    if (data) setShowModal(true);
   };
 
   /**

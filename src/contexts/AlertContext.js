@@ -1,10 +1,10 @@
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, forwardRef, useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { Alert } from "../components";
 
 const AlertContext = createContext();
 
-export const AlertContextProvider = ({ children }) => {
+export const AlertContextProvider = forwardRef(({ children }, ref) => {
   const [currentOptions, setCurrentOptions] = useState([]);
   const [usedAlert, setUsedAlert] = useState({
     close: () => {},
@@ -14,7 +14,7 @@ export const AlertContextProvider = ({ children }) => {
     onClose: () => {},
   });
   const [show, setShow] = useState(false);
-  const ref = useRef(null);
+  const alertRef = useRef(null);
 
   const showAlert = (newAlert) => {
     setCurrentOptions((opt) => [...opt, newAlert]);
@@ -42,13 +42,13 @@ export const AlertContextProvider = ({ children }) => {
         unmountOnExit
         timeout={200}
         classNames="alert"
-        nodeRef={ref}
+        nodeRef={alertRef}
       >
-        <Alert ref={ref} {...usedAlert} close={handleClose} />
+        <Alert ref={alertRef} {...usedAlert} close={handleClose} />
       </CSSTransition>
     </AlertContext.Provider>
   );
-};
+});
 
 export const AlertConsumer = AlertContext.Consumer;
 
