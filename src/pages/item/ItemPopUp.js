@@ -3,12 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { CSSTransition } from "react-transition-group";
 import { Modal, LoadingSpinner } from "../../components";
 import axiosInstance from "../../utils/axiosInstance";
-
-// Currency Formatter for transaction price
-const formatter = Intl.NumberFormat("id-ID", {
-  style: "currency",
-  currency: "IDR",
-});
+import { IDRFormatter } from "../../utils/CurrenyFormatter";
 
 /**
  * Modal for item detail including its transaction
@@ -16,7 +11,7 @@ const formatter = Intl.NumberFormat("id-ID", {
  * @param {Object} props Component props
  * @returns Modal component to be rendered
  */
-const ItemPopUp = ({ item, showModal, setShowModal }) => {
+const ItemPopUp = ({ item, showModal, setShowModal, onAdd }) => {
   const [loadingTransaction, setLoadingTransaction] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const nodeRef = useRef();
@@ -87,6 +82,10 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
     setTransactions([]);
   };
 
+  const handleAddButton = (e) => {
+    onAdd();
+  };
+
   return (
     <CSSTransition
       in={showModal}
@@ -114,7 +113,10 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
                   <button className="px-2 py-1 bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-100 transition duration-300 focus:outline-none text-sm rounded-lg">
                     Take 1
                   </button>
-                  <button className="px-2 py-1 bg-green-200 hover:bg-green-300 active:bg-green-100 transition duration-300 focus:outline-none text-sm rounded-lg">
+                  <button
+                    onClick={handleAddButton}
+                    className="px-2 py-1 bg-green-200 hover:bg-green-300 active:bg-green-100 transition duration-300 focus:outline-none text-sm rounded-lg"
+                  >
                     Add
                   </button>
                 </div>
@@ -137,7 +139,7 @@ const ItemPopUp = ({ item, showModal, setShowModal }) => {
                     return (
                       <tr key={i}>
                         <td>{v.store?.name}</td>
-                        <td>{formatter.format(v.price)}</td>
+                        <td>{IDRFormatter.format(v.price)}</td>
                       </tr>
                     );
                   })}

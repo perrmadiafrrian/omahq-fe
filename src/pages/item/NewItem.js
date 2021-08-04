@@ -117,7 +117,7 @@ const NewItem = ({ shown, barcode, onSubmit, onClose, houseId }) => {
           <InputGroup>
             <button
               onClick={submit}
-              className="rounded px-2 py-1 focus:outline-none border-2 border-green-200 hover:border-green-400 bg-green-200 active:bg-green-400"
+              className="rounded text-white font-medium px-2 py-1 focus:outline-none hover:bg-green-500 bg-green-400 active:bg-green-600 transition duration-300 ease-in-out"
             >
               Submit
             </button>

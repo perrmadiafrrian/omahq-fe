@@ -3,6 +3,7 @@ import { useEffect, useState, lazy, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { useInView } from "react-intersection-observer";
+import AddForm from "./AddForm";
 const BarcodeScan = lazy(() => import("./BarcodeScan"));
 const NewItem = lazy(() => import("./NewItem"));
 const ItemPopUp = lazy(() => import("./ItemPopUp"));
@@ -27,7 +28,8 @@ const ItemPage = () => {
   const { ref, inView } = useInView({ threshold: 0 });
   const [showScanner, setShowScanner] = useState(false);
   const [newBarcode, setNewBarcode] = useState(null);
-  const [showNewForm, setShowNewForm] = useState(null);
+  const [showNewForm, setShowNewForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   /**
    * Fetching items in the selected house
@@ -158,6 +160,22 @@ const ItemPage = () => {
     }
   };
 
+  const handleOnAdd = (data) => {
+    setItems((items) => {
+      items.map((v, i) => {
+        if (v.id === data.id) {
+          v.quantity = data.current_quantity;
+        }
+        return v;
+      });
+      return items;
+    });
+    setItem((item) => {
+      item.quantity = data.current_quantity;
+      return item;
+    });
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navigation />
@@ -195,6 +213,7 @@ const ItemPage = () => {
       <ItemPopUp
         showModal={showModal}
         setShowModal={setShowModal}
+        onAdd={() => setShowAddForm(true)}
         item={item}
       />
       <BarcodeScan showScanner={showScanner} onScanned={handleScanned} />
@@ -203,6 +222,15 @@ const ItemPage = () => {
         barcode={newBarcode}
         houseId={id}
         onClose={(data) => handleModalOpening(data)}
+      />
+      <AddForm
+        shown={showAddForm}
+        item={item}
+        onClose={() => {
+          setShowAddForm(false);
+        }}
+        houseId={id}
+        onSaved={handleOnAdd}
       />
     </div>
   );
