@@ -68,7 +68,7 @@ const BarcodeScan = ({ showScanner, onScanned }) => {
           onClick={() => {
             handleScan(null, null);
           }}
-          className="absolute bg-gray-700 bg-opacity-30 -z-10 inset-0 backdrop-filter backdrop-blur-sm"
+          className="absolute bg-gray-700 bg-opacity-40 -z-10 inset-0 backdrop-filter backdrop-blur-sm"
         ></div>
         <div className="py-3 px-2 flex flex-col space-y-6" ref={ref}>
           <button
@@ -78,7 +78,7 @@ const BarcodeScan = ({ showScanner, onScanned }) => {
             {scanner ? `Use Webcam` : `Use Scanner`}
           </button>
           {scanner ? (
-            <div className="rounded-lg bg-white px-4 py-2 shadow-lg w-full">
+            <div className="rounded-lg bg-white dark:bg-gray-500 text-gray-900 dark:text-gray-50 px-4 py-2 shadow-lg w-full">
               <Input
                 onKeyDown={handleEnterPressed}
                 onChange={handleChange}

@@ -5,6 +5,9 @@ import axiosInstance from "../utils/axiosInstance";
 import { useDispatch } from "react-redux";
 import { AUTH_SET } from "../actions";
 import { useLocation, useHistory } from "react-router";
+import errorResponseHandler from "../utils/errorResponseHandler";
+import { useContext } from "react";
+import AlertContext from "../contexts/AlertContext";
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -12,9 +15,11 @@ function GoogleSignin() {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+  const { showAlert } = useContext(AlertContext);
   const { from } = location.state || { from: { pathname: "/" } };
 
   const onSuccess = async (res) => {
+    //TODO: LOADING STATE
     const { email, imageUrl, name } = res.profileObj;
     await axiosInstance
       .post("/auth/google", {
@@ -25,17 +30,15 @@ function GoogleSignin() {
         username: email,
       })
       .then((res) => {
-        const { status, ...data } = res.data;
+        const { ...data } = res.data;
         dispatch({
           type: AUTH_SET,
-          payload: { is_auth: status === "success", ...data },
+          payload: { is_auth: true, ...data },
         });
-        if (status === "success") {
-          history.replace(from);
-        }
+        history.replace(from);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(({ response }) => {
+        errorResponseHandler(response, showAlert);
       });
   };
 
@@ -54,7 +57,9 @@ function GoogleSignin() {
   return (
     <button
       onClick={signIn}
-      className="w-full text-blue-600 bg-white border-0 py-2 px-8 shadow-lg hover:bg-gray-300 active:bg-gray-100 focus:outline-none font-medium rounded text-xl relative"
+      className={`text-blue-600 bg-white hover:bg-gray-300 active:bg-gray-100
+      dark:text-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-900 transition duration-300
+      w-full border-0 py-2 px-8 shadow-lg focus:outline-none font-medium rounded text-xl relative`}
     >
       <IconContext.Provider value={{ className: `w-8 h-8 left-4 absolute` }}>
         <FcGoogle />
