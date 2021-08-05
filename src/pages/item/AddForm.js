@@ -8,32 +8,51 @@ import axiosInstance from "../../utils/axiosInstance";
 import { IDRFormatter } from "../../utils/CurrenyFormatter";
 import errorResponseHandler from "../../utils/errorResponseHandler";
 
+// Default value for the form
 const defaultForm = {
   store: "",
   price: 0,
-  unformatted_price: 0,
   quantity: "",
   total_price: "Rp 0,00",
 };
 
+/**
+ * Add Item form, handling incoming item transaction
+ * consist of store, price and quantity
+ *
+ * @param {Object} param0 Component props
+ * @returns JSX.Element that should be rendered
+ */
 const AddForm = ({ item, shown, onClose, houseId, onSaved }) => {
   const auth = useSelector((state) => state.auth);
   const [form, setForm] = useState({ ...defaultForm });
   const { showAlert } = useContext(AlertContext);
   const modalRef = useRef();
 
+  //Reset the form on shown
   useEffect(() => {
     setForm(defaultForm);
   }, [shown]);
 
+  /**
+   * Handling the state changes
+   *
+   * @param {Event} e Input change event
+   * @param {String} name form's name
+   */
   const handleOnChange = (e, name) => {
     const new_form = { ...form };
     new_form[name] = e.target.value;
+    new_form.price = parseInt(new_form.price);
     const total_price = new_form.price * new_form.quantity;
     new_form.total_price = IDRFormatter.format(total_price);
     setForm(new_form);
   };
 
+  /**
+   * Processing the form to be submitted
+   * for the incoming transaction
+   */
   const submit = async () => {
     //TODO: LOADING STATE
     await axiosInstance

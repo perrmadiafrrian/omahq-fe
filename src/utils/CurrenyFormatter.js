@@ -4,6 +4,13 @@ export const IDRFormatter = Intl.NumberFormat("id-ID", {
   currency: "IDR",
 });
 
+/**
+ * Unformat a NumberFormat formatted string
+ *
+ * @param {String} stringNumber string number that are formatted
+ * @param {String} locale locale for the format
+ * @returns number that aren't formatted
+ */
 export const CurrencyUnformat = (stringNumber, locale = "id-ID") => {
   let thousandSeparator = Intl.NumberFormat(locale)
     .format(11111)

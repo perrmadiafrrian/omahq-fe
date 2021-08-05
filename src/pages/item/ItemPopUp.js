@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
 import { CSSTransition } from "react-transition-group";
@@ -5,13 +7,15 @@ import { Modal, LoadingSpinner } from "../../components";
 import axiosInstance from "../../utils/axiosInstance";
 import { IDRFormatter } from "../../utils/CurrenyFormatter";
 
+dayjs.extend(advancedFormat);
+
 /**
  * Modal for item detail including its transaction
  *
  * @param {Object} props Component props
  * @returns Modal component to be rendered
  */
-const ItemPopUp = ({ item, showModal, setShowModal, onAdd }) => {
+const ItemPopUp = ({ item, showModal, setShowModal, onAdd, onTake }) => {
   const [loadingTransaction, setLoadingTransaction] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const nodeRef = useRef();
@@ -82,8 +86,22 @@ const ItemPopUp = ({ item, showModal, setShowModal, onAdd }) => {
     setTransactions([]);
   };
 
+  /**
+   * Open AddForm on clicked
+   *
+   * @param {Event} e button click event
+   */
   const handleAddButton = (e) => {
     onAdd();
+  };
+
+  /**
+   * Open confirmation on taking item
+   *
+   * @param {Event} e button click event
+   */
+  const handleTakeButton = (e) => {
+    onTake();
   };
 
   return (
@@ -110,7 +128,10 @@ const ItemPopUp = ({ item, showModal, setShowModal, onAdd }) => {
               <div className="w-full flex flex-row justify-between">
                 <div className="text-base">{item?.quantity} pcs</div>
                 <div className="space-x-2">
-                  <button className="px-2 py-1 bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-100 transition duration-300 focus:outline-none text-sm rounded-lg">
+                  <button
+                    onClick={handleTakeButton}
+                    className="px-2 py-1 bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-100 transition duration-300 focus:outline-none text-sm rounded-lg"
+                  >
                     Take 1
                   </button>
                   <button
@@ -136,10 +157,20 @@ const ItemPopUp = ({ item, showModal, setShowModal, onAdd }) => {
               <table className="w-full">
                 <tbody>
                   {transactions.map((v, i) => {
+                    const isTrIn = v.transaction_code === "ti";
+                    const date = dayjs(v.created_at);
                     return (
                       <tr key={i}>
-                        <td>{v.store?.name}</td>
-                        <td>{IDRFormatter.format(v.price)}</td>
+                        <td>
+                          {isTrIn
+                            ? v.store?.name
+                            : `Used @ ${date.format("MMM Do, YY")}`}
+                        </td>
+                        <td>
+                          {isTrIn
+                            ? IDRFormatter.format(v.price)
+                            : date.format("HH:mm:ss")}
+                        </td>
                       </tr>
                     );
                   })}

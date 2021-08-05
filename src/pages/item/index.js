@@ -1,9 +1,13 @@
 import { Navigation } from "../../components";
-import { useEffect, useState, lazy, useCallback } from "react";
+import { useEffect, useState, lazy, useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { useInView } from "react-intersection-observer";
 import AddForm from "./AddForm";
+import ConfimDialog from "../../components/ConfimDialog";
+import { useSelector } from "react-redux";
+import errorResponseHandler from "../../utils/errorResponseHandler";
+import AlertContext from "../../contexts/AlertContext";
 const BarcodeScan = lazy(() => import("./BarcodeScan"));
 const NewItem = lazy(() => import("./NewItem"));
 const ItemPopUp = lazy(() => import("./ItemPopUp"));
@@ -30,6 +34,9 @@ const ItemPage = () => {
   const [newBarcode, setNewBarcode] = useState(null);
   const [showNewForm, setShowNewForm] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showTake, setShowTake] = useState(false);
+  const auth = useSelector((state) => state.auth);
+  const { showAlert } = useContext(AlertContext);
 
   /**
    * Fetching items in the selected house
@@ -160,6 +167,12 @@ const ItemPage = () => {
     }
   };
 
+  /**
+   * Handling the addition after the item has been successfully
+   * updated
+   *
+   * @param {Object} data form data that has to be added
+   */
   const handleOnAdd = (data) => {
     setItems((items) => {
       items.map((v, i) => {
@@ -174,6 +187,45 @@ const ItemPage = () => {
       item.quantity = data.current_quantity;
       return item;
     });
+  };
+
+  /**
+   * Handling when `take one` action has been
+   * fired. Item quantity going to be decreased
+   */
+  const handleTakeOne = async () => {
+    // TODO: LOADING STATE
+    await axiosInstance
+      .post(`/transaction/usage`, {
+        house_id: id,
+        barcode: item.barcode,
+        user_id: auth.data.id,
+      })
+      .then((res) => {
+        const data = res.data;
+        setItems((items) => {
+          items.map((v, i) => {
+            if (v.id === item.id) {
+              v.quantity = data.current_quantity;
+            }
+            return v;
+          });
+          return items;
+        });
+        setItem((item) => {
+          item.quantity = data.current_quantity;
+          return item;
+        });
+        showAlert({
+          message: `One item taken successfully`,
+          title: `Success`,
+          type: `success`,
+        });
+      })
+      .catch(({ response }) => {
+        errorResponseHandler(response, showAlert);
+      });
+    setShowTake(false);
   };
 
   return (
@@ -214,6 +266,7 @@ const ItemPage = () => {
         showModal={showModal}
         setShowModal={setShowModal}
         onAdd={() => setShowAddForm(true)}
+        onTake={() => setShowTake(true)}
         item={item}
       />
       <BarcodeScan showScanner={showScanner} onScanned={handleScanned} />
@@ -231,6 +284,12 @@ const ItemPage = () => {
         }}
         houseId={id}
         onSaved={handleOnAdd}
+      />
+      <ConfimDialog
+        shown={showTake}
+        confirmText={`Are you sure going to take one of ${item?.name}?`}
+        onConfirm={handleTakeOne}
+        onCancel={() => setShowTake(false)}
       />
     </div>
   );

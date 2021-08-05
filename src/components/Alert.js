@@ -52,6 +52,7 @@ const Alert = forwardRef(({ message, close, onClose, title, type }, ref) => {
               timeout={300}
               unmountOnExit
               classNames="alert-icon"
+              nodeRef={iconRef}
             >
               <div ref={iconRef}>
                 {UsedIcon ? (
