@@ -118,7 +118,7 @@ const Home = () => {
   }, [editData]);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
       <Navigation />
       <div className="py-10 lg:py-16">
         <div className="flex flex-wrap justify-center">
@@ -137,7 +137,7 @@ const Home = () => {
                   v.edit
                     ? "text-yellow-400 hover:text-yellow-500"
                     : "text-blue-500 hover:text-blue-600"
-                } rounded-lg bg-white flex flex-col items-center justify-around hover:bg-gray-200 transition-colors duration-200 ease-in-out`}
+                } rounded-lg bg-white hover:bg-gray-200 active:bg-gray-400 dark:bg-gray-800 dark:hover:bg-gray-600 dark:active:bg-gray-500 focus:outline-none flex flex-col items-center justify-around transition-colors duration-200 ease-in-out`}
               >
                 <IconContext.Provider
                   value={{
@@ -154,7 +154,10 @@ const Home = () => {
           })}
           <button
             onClick={() => setShowModalNew(true)}
-            className="w-32 h-32 m-2 lg:w-40 lg:h-40 lg:m-2 text-gray-500 hover:text-gray-600 border-4 border-dashed border-gray-200 rounded-lg bg-gray-100 flex flex-col items-center justify-around focus:outline-none active:bg-gray-300 active:border-gray-300 hover:bg-gray-200 transition-colors duration-200 ease-in-out"
+            className={`w-32 h-32 m-2 lg:w-40 lg:h-40 lg:m-2
+            text-gray-500 hover:text-gray-600 border-gray-200 bg-gray-100 active:bg-gray-300 active:border-gray-300 hover:bg-gray-200
+            dark:text-gray-100 dark:hover:text-gray-200 dark:border-gray-900 dark:bg-gray-700 dark:active:bg-gray-500 dark:hover:bg-gray-600
+            border-4 border-dashed rounded-lg flex flex-col items-center justify-around focus:outline-none transition-colors duration-200 ease-in-out`}
           >
             <IconContext.Provider
               value={{

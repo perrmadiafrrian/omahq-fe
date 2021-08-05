@@ -14,7 +14,6 @@ const Modal = forwardRef(
     const maxWidth = maxWidths[width];
     return (
       <div
-        ref={ref}
         className="fixed z-40 sm:pt-10 inset-0 overscroll-y-auto"
         role="dialog"
         aria-modal="true"
@@ -22,18 +21,21 @@ const Modal = forwardRef(
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <div
             onClick={() => closing()}
-            className="fixed inset-0 backdrop-filter backdrop-blur"
+            className="fixed inset-0 backdrop-filter backdrop-blur bg-gray-900 bg-opacity-50"
             aria-hidden="true"
           ></div>
           <div
-            className={`inline-block align-bottom bg-white rounded-lg text-left overflow-hidden filter drop-shadow-3xl transform transition-all w-full ${maxWidth} my-8`}
+            ref={ref}
+            className={`inline-block align-bottom bg-white dark:bg-gray-700 rounded-lg text-left overflow-hidden filter drop-shadow-3xl transform transition-all w-full ${maxWidth} my-8`}
           >
             <div className="pb-2 pt-1 flex flex-col">
               <div className="w-full mb-4 px-2">
-                <span className="text-2xl font-bold px-1">{title}</span>
+                <span className="text-2xl text-gray-900 dark:text-gray-50 font-bold px-1">
+                  {title}
+                </span>
                 <button
                   onClick={() => closing()}
-                  className="absolute right-0 mx-1 focus:outline-none hover:bg-red-200 active:bg-red-100 transition duration-500 ease-in-out hover:text-red-600 rounded-xl p-1"
+                  className="absolute right-0 mx-1 focus:outline-none hover:bg-red-200 active:bg-red-100 hover:text-red-600 text-gray-900 dark:text-gray-50 dark:hover:bg-red-500 dark:active:bg-red-600 dark:hover:text-red-200 transition duration-500 ease-in-out rounded-xl p-1"
                 >
                   <svg
                     className="h-6 w-6"

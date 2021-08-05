@@ -15,7 +15,7 @@ const NavProfile = (props) => {
   return (
     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto ms:ml-6 sm:pr-0">
       <div className="ml-6 relative">
-        <button className="hover:text-gray-400 text-black transition-colors duration-300 ease-in-out">
+        <button className="hover:text-gray-400 text-black dark:text-gray-100 dark:hover:text-gray-400 transition-colors duration-300 ease-in-out">
           Permadi Afrian
         </button>
       </div>

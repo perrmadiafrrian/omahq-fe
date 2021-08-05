@@ -229,23 +229,23 @@ const ItemPage = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
       <Navigation />
       <div className={`flex flex-col`}>
         <div
           className={`pt-6 pb-4 mb-4 px-6 w-full flex justify-between ${
             stickyHeader
-              ? "sticky top-0 z-20 bg-white shadow-xl rounded-b-lg"
-              : "bg-indigo-100 shadow"
+              ? "sticky top-0 z-20 bg-white dark:bg-gray-800 shadow-xl rounded-b-lg"
+              : "bg-indigo-100 dark:bg-indigo-900 shadow"
           } transition duration-500`}
         >
-          <div className="px-6 sm:px-16 text-xl sm:text-3xl font-bold text-gray-900">
+          <div className="px-6 sm:px-16 text-xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
             {house?.name}
           </div>
           <div className="px-6 sm:px-16">
             <button
               onClick={() => setShowScanner(true)}
-              className="bg-green-500 hover:bg-green-600 duration-300 ease-in-out text-center rounded-lg text-sm py-2 px-4 text-white"
+              className="bg-green-500 hover:bg-green-600 font-semibold duration-300 ease-in-out text-center rounded-lg text-lg py-2 px-4 text-white"
             >
               Scan
             </button>

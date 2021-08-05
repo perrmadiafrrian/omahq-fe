@@ -175,12 +175,16 @@ const HomeForm = ({
             {!isProcessing ? (
               <button
                 onClick={handleSubmitData}
-                className="px-2 py-1 rounded text-white font-medium bg-green-400 hover:bg-green-300 active:bg-green-500 duration-300 ease-in-out focus:outline-none"
+                className={`px-2 py-1 rounded font-medium duration-300 ease-in-out focus:outline-none
+                text-white bg-green-400 hover:bg-green-300 active:bg-green-500`}
               >
                 Save
               </button>
             ) : (
-              <button className="px-2 py-1 inline-flex items-center font-medium text-white rounded bg-green-400 hover:bg-green-300 active:bg-green-500 duration-300 ease-in-out focus:outline-none">
+              <button
+                className={`px-2 py-1 inline-flex items-center font-medium rounded duration-300 ease-in-out focus:outline-none
+              text-white bg-green-400 hover:bg-green-300 active:bg-green-500`}
+              >
                 <svg
                   className="animate-spin mr-3 h-5 w-5 text-white"
                   xmlns="http://www.w3.org/2000/svg"

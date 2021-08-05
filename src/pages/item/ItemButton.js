@@ -11,7 +11,7 @@ const ItemButton = forwardRef(({ data, onClick, scrollPosition }, ref) => {
   return (
     <div
       ref={ref}
-      className="w-80 h-36 sm:m-3 m-2 relative overflow-hidden bg-white shadow-md rounded-2xl flex justify-items-center"
+      className="w-80 h-36 sm:m-3 m-2 relative overflow-hidden bg-white dark:bg-gray-800 shadow-md rounded-2xl flex justify-items-center"
     >
       <div className="w-36 h-full bg-gray-500 rounded-l-xl mr-2 overflow-hidden">
         <LazyLoadImage
@@ -26,7 +26,7 @@ const ItemButton = forwardRef(({ data, onClick, scrollPosition }, ref) => {
           scrollPosition={scrollPosition}
         />
       </div>
-      <div className="rounded-xl max-w-10 flex flex-col justify-between h-full">
+      <div className="rounded-xl max-w-10 text-gray-900 dark:text-gray-100 flex flex-col justify-between h-full">
         <span className="text-md font-bold">{data.name}</span>
         <span className="text-sm mb-3">
           {data.description.length > 40

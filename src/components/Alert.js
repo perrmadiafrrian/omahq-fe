@@ -37,13 +37,13 @@ const Alert = forwardRef(({ message, close, onClose, title, type }, ref) => {
   return (
     <div
       onClick={handleClosing}
-      className="absolute inset-0 bg-gray-500 bg-opacity-20 backdrop-filter backdrop-blur-sm flex z-50 justify-center items-start"
+      className="absolute inset-0 bg-gray-500 bg-opacity-40 backdrop-filter backdrop-blur-sm flex z-50 justify-center items-start"
       role="dialog"
       aria-modal="true"
     >
       <div
         ref={ref}
-        className="bg-white w-full mx-4 sm:w-96 h-32 rounded-xl shadow-xl my-20 flex overflow-hidden"
+        className="bg-white dark:bg-gray-800 w-full mx-4 sm:w-96 h-32 rounded-xl shadow-xl my-20 flex overflow-hidden"
       >
         <div className="place-self-center mx-4">
           <div className="w-20 h-20">
@@ -67,8 +67,12 @@ const Alert = forwardRef(({ message, close, onClose, title, type }, ref) => {
           </div>
         </div>
         <div className="flex-1 flex flex-col items-start m-2 space-y-4">
-          <div className="text-lg text-gray-600 font-medium">{title}</div>
-          <div className="text-xl text-gray-800 font-bold">{message}</div>
+          <div className="text-lg text-gray-600 dark:text-gray-100 font-medium">
+            {title}
+          </div>
+          <div className="text-xl text-gray-800 dark:text-gray-50 font-bold">
+            {message}
+          </div>
         </div>
       </div>
     </div>

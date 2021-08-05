@@ -122,7 +122,7 @@ const ItemPopUp = ({ item, showModal, setShowModal, onAdd, onTake }) => {
                 className="h-full w-full object-cover object-center"
               />
             </div>
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 text-gray-900 dark:text-gray-100">
               <div className="text-sm font-semibold">{item?.barcode}</div>
               <div className="text-xs flex-1">{item?.description}</div>
               <div className="w-full flex flex-row justify-between">
@@ -130,13 +130,13 @@ const ItemPopUp = ({ item, showModal, setShowModal, onAdd, onTake }) => {
                 <div className="space-x-2">
                   <button
                     onClick={handleTakeButton}
-                    className="px-2 py-1 bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-100 transition duration-300 focus:outline-none text-sm rounded-lg"
+                    className="px-2 py-1 text-gray-900 font-medium bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-100 transition duration-300 focus:outline-none text-sm rounded-lg"
                   >
                     Take 1
                   </button>
                   <button
                     onClick={handleAddButton}
-                    className="px-2 py-1 bg-green-200 hover:bg-green-300 active:bg-green-100 transition duration-300 focus:outline-none text-sm rounded-lg"
+                    className="px-2 py-1 text-gray-900 font-medium bg-green-200 hover:bg-green-300 active:bg-green-100 transition duration-300 focus:outline-none text-sm rounded-lg"
                   >
                     Add
                   </button>
@@ -145,7 +145,7 @@ const ItemPopUp = ({ item, showModal, setShowModal, onAdd, onTake }) => {
             </div>
           </div>
           <div
-            className={`h-80 max-h-80 relative bg-gray-300 mt-2 rounded-lg overflow-hidden`}
+            className={`h-80 max-h-80 relative bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-gray-100 mt-2 rounded-lg overflow-hidden`}
             ref={transactionContainerRef}
           >
             {loadingTransaction ? (
