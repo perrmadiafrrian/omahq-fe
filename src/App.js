@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { lazy } from "react";
 import { Suspense } from "react-is";
+import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { AlertContextProvider } from "./contexts/AlertContext";
 import PrivateRoute from "./utils/PrivateRoute";
@@ -9,6 +11,15 @@ const Home = lazy(() => import("./pages/home"));
 const Login = lazy(() => import("./pages/Login"));
 
 function App() {
+  const menuState = useSelector((state) => state.menuState);
+  useEffect(() => {
+    if (menuState.dark_mode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [menuState]);
+
   return (
     <Router>
       <AlertContextProvider>

@@ -1,5 +1,4 @@
 import Alert from "./Alert";
-import Box from "./Box";
 import Button from "./Button";
 import GoogleSignin from "./GoogleSignin";
 import GoogleSignout from "./GoogleSignout";
@@ -14,7 +13,6 @@ import { NavMenu, NavHamButton } from "./SmNav";
 export {
   Navigation,
   Alert,
-  Box,
   Button,
   GoogleSignin,
   GoogleSignout,

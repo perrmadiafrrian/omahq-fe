@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
+import DarkMode from "./DarkMode";
 import GoogleSignout from "./GoogleSignout";
 import "./NavProfile.css";
 
@@ -53,21 +54,12 @@ const NavProfile = (props) => {
               aria-hidden="true"
             ></div>
             <div
-              className={`block origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}
+              className={`block text-right origin-top-right absolute right-0 mt-2 w-36 sm:w-28 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none`}
               tabIndex="-1"
             >
-              <button
-                className="block w-full text-left hover:text-gray-400 transition-colors ease-in-out px-4 py-2 text-sm text-gray-700"
-                tabIndex="-1"
-              >
-                Profile
-              </button>
-              <button
-                className="block w-full text-left hover:text-gray-400 transition-colors ease-in-out px-4 py-2 text-sm text-gray-700"
-                tabIndex="-1"
-              >
-                Settings
-              </button>
+              <div className="block px-4 py-2 w-full" tabIndex="-1">
+                <DarkMode />
+              </div>
               <GoogleSignout />
             </div>
           </div>

@@ -31,7 +31,7 @@ const GoogleSignout = () => {
   return (
     <button
       onClick={signOut}
-      className="block w-full text-left hover:text-gray-400 transition-colors ease-in-out px-4 py-2 text-sm text-gray-700"
+      className="block w-full text-left hover:text-gray-400 text-gray-700 dark:text-gray-100 dark:hover:text-gray-300 transition-colors ease-in-out px-4 py-2 text-sm"
       tabIndex="-1"
     >
       Sign Out

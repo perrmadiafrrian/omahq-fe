@@ -51,6 +51,7 @@ module.exports = {
       filter: ["hover", "focus"],
       fontSize: ["hover", "focus"],
       borderColor: ["active"],
+      cursor: ["hover", "focus"],
     },
   },
   plugins: [],
