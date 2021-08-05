@@ -5,7 +5,7 @@ import { TOGGLE_MENU } from "../actions";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 
-const NavHamButton = (props) => {
+const NavHamButton = () => {
   const state = useSelector((state) => state.menuState);
   const dispatch = useDispatch();
   const ref = useRef(null);
@@ -85,12 +85,6 @@ const NavMenu = (props) => {
           <Link to="/">
             <button className="text-lg w-full hover:bg-indigo-100 border-l-2 border-indigo-400 block text-left px-3 py-2">
               Home
-            </button>
-          </Link>
-
-          <Link to="/test">
-            <button className="text-lg w-full hover:bg-indigo-100 block text-left px-3 py-2">
-              Stores
             </button>
           </Link>
         </div>
