@@ -3,6 +3,7 @@ import { CSSTransition } from "react-transition-group";
 import { Input, InputGroup, Modal } from "../../components";
 import TextArea from "../../components/TextArea";
 import AlertContext from "../../contexts/AlertContext";
+import LoadingContext from "../../contexts/LoadingContext";
 import axiosInstance from "../../utils/axiosInstance";
 import errorResponseHandler from "../../utils/errorResponseHandler";
 
@@ -25,6 +26,7 @@ const NewItem = ({ shown, barcode, onSubmit, onClose, houseId }) => {
   const modalRef = useRef();
   const inputRef = useRef();
   const { showAlert } = useContext(AlertContext);
+  const { loadingProcess, loadingDone } = useContext(LoadingContext);
   const [form, setForm] = useState({
     ...defaultForm,
   });
@@ -33,6 +35,7 @@ const NewItem = ({ shown, barcode, onSubmit, onClose, houseId }) => {
     description: true,
     image: true,
   });
+  const LOADING_NEW_ITEM = "LOADING_NEW_ITEM";
 
   /**
    * Handling the value change based on input
@@ -59,7 +62,7 @@ const NewItem = ({ shown, barcode, onSubmit, onClose, houseId }) => {
    * showing alert about the failure
    */
   const submit = async () => {
-    //TODO: LOADING STATE
+    loadingProcess(LOADING_NEW_ITEM);
     await axiosInstance
       .post(`/item`, {
         ...form,
@@ -77,6 +80,7 @@ const NewItem = ({ shown, barcode, onSubmit, onClose, houseId }) => {
       .catch(({ response }) => {
         errorResponseHandler(response, showAlert);
       });
+    loadingDone(LOADING_NEW_ITEM);
   };
 
   useEffect(() => {

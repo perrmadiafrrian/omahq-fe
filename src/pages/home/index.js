@@ -4,10 +4,12 @@ import { FaEdit, FaPlus } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import HomeForm from "./HomeForm";
 import AlertContext from "../../contexts/AlertContext";
+import LoadingContext from "../../contexts/LoadingContext";
+import errorResponseHandler from "../../utils/errorResponseHandler";
 
 /**
  * Home page that shows the user's available
@@ -23,6 +25,7 @@ const Home = () => {
   const [showModalNew, setShowModalNew] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
   const { showAlert } = useContext(AlertContext);
+  const { loadingProcess, loadingDone } = useContext(LoadingContext);
   const [editData, setEditData] = useState(null);
 
   /**
@@ -83,28 +86,31 @@ const Home = () => {
     setEditData(null);
   };
 
+  const fetchHouses = useCallback(async () => {
+    loadingProcess("FETCH_HOUSES");
+    await axiosInstance
+      .request(`/house/byowner/${auth.data.id}`)
+      .then((res) => {
+        const result_houses = res.data.houses;
+        result_houses.map((v, i) => {
+          v.edit = false;
+          return v;
+        });
+        setHouses(result_houses);
+        loadingDone("FETCH_HOUSES");
+      })
+      .catch(({ response }) => {
+        errorResponseHandler(response, showAlert);
+      });
+  }, [auth.data.id, showAlert, loadingProcess, loadingDone]);
+
   /**
    * Fetch house data everytime
    * the user load the page
    */
   useEffect(() => {
-    const fetchHouses = async () =>
-      await axiosInstance
-        .request(`/house/byowner/${auth.data.id}`)
-        .then((res) => {
-          const result_houses = res.data.houses;
-          result_houses.map((v, i) => {
-            v.edit = false;
-            return v;
-          });
-          setHouses(result_houses);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
     fetchHouses();
-  }, [auth.data.id]);
+  }, [fetchHouses]);
 
   /**
    * On `editData` changes, it will check if

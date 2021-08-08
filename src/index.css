@@ -81,3 +81,16 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #00000055;
 }
+
+.loading-enter {
+  @apply opacity-0;
+}
+.loading-enter-active {
+  @apply opacity-100 transition duration-100 ease-in;
+}
+.loading-exit {
+  @apply opacity-100;
+}
+.loading-exit-active {
+  @apply opacity-0 transition duration-100 ease-out;
+}

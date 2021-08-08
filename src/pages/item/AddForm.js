@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import { Input, InputGroup, Modal } from "../../components";
 import AlertContext from "../../contexts/AlertContext";
+import LoadingContext from "../../contexts/LoadingContext";
 import axiosInstance from "../../utils/axiosInstance";
 import { IDRFormatter } from "../../utils/CurrenyFormatter";
 import errorResponseHandler from "../../utils/errorResponseHandler";
@@ -27,7 +28,9 @@ const AddForm = ({ item, shown, onClose, houseId, onSaved }) => {
   const auth = useSelector((state) => state.auth);
   const [form, setForm] = useState({ ...defaultForm });
   const { showAlert } = useContext(AlertContext);
+  const { loadingProcess, loadingDone } = useContext(LoadingContext);
   const modalRef = useRef();
+  const LOADING_ADD_FORM = "LOADING_ADD_FORM";
 
   //Reset the form on shown
   useEffect(() => {
@@ -54,7 +57,7 @@ const AddForm = ({ item, shown, onClose, houseId, onSaved }) => {
    * for the incoming transaction
    */
   const submit = async () => {
-    //TODO: LOADING STATE
+    loadingProcess(LOADING_ADD_FORM);
     await axiosInstance
       .post(`/transaction/incoming`, {
         ...form,
@@ -74,6 +77,7 @@ const AddForm = ({ item, shown, onClose, houseId, onSaved }) => {
       .catch(({ response }) => {
         errorResponseHandler(response, showAlert);
       });
+    loadingDone(LOADING_ADD_FORM);
   };
 
   return (

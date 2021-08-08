@@ -4,6 +4,7 @@ import { Suspense } from "react-is";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { AlertContextProvider } from "./contexts/AlertContext";
+import { LoadingContextProvider } from "./contexts/LoadingContext";
 import PrivateRoute from "./utils/PrivateRoute";
 import Route from "./utils/Route";
 const ItemPage = lazy(() => import("./pages/item"));
@@ -23,21 +24,23 @@ function App() {
   return (
     <Router>
       <AlertContextProvider>
-        <div>
-          <Suspense fallback={<div></div>}>
-            <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <PrivateRoute path="/house/:id">
-                <ItemPage />
-              </PrivateRoute>
-              <PrivateRoute path="/">
-                <Home />
-              </PrivateRoute>
-            </Switch>
-          </Suspense>
-        </div>
+        <LoadingContextProvider>
+          <div>
+            <Suspense fallback={<div></div>}>
+              <Switch>
+                <Route path="/login">
+                  <Login />
+                </Route>
+                <PrivateRoute path="/house/:id">
+                  <ItemPage />
+                </PrivateRoute>
+                <PrivateRoute path="/">
+                  <Home />
+                </PrivateRoute>
+              </Switch>
+            </Suspense>
+          </div>
+        </LoadingContextProvider>
       </AlertContextProvider>
     </Router>
   );

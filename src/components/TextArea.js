@@ -7,7 +7,7 @@ const TextArea = forwardRef(({ requiredFail, ...props }, ref) => {
     <textarea
       ref={ref}
       {...props}
-      className={`resize-none px-2 py-1 rounded border-2 bg-transparent focus:outline-none border-gray-300 focus:border-blue-300 w-full ${fails}`}
+      className={`resize-none px-2 py-1 rounded border-2 bg-transparent focus:outline-none border-gray-300 text-gray-900 dark:text-gray-50 focus:border-blue-300 w-full ${fails}`}
     />
   );
 });

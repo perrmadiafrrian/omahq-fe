@@ -8,6 +8,7 @@ import ConfimDialog from "../../components/ConfimDialog";
 import { useSelector } from "react-redux";
 import errorResponseHandler from "../../utils/errorResponseHandler";
 import AlertContext from "../../contexts/AlertContext";
+import LoadingContext from "../../contexts/LoadingContext";
 const BarcodeScan = lazy(() => import("./BarcodeScan"));
 const NewItem = lazy(() => import("./NewItem"));
 const ItemPopUp = lazy(() => import("./ItemPopUp"));
@@ -37,6 +38,10 @@ const ItemPage = () => {
   const [showTake, setShowTake] = useState(false);
   const auth = useSelector((state) => state.auth);
   const { showAlert } = useContext(AlertContext);
+  const { loadingProcess, loadingDone } = useContext(LoadingContext);
+  const LOADING_ITEM = "LOADING_ITEM";
+
+  // TODO: ITEM SEARCH
 
   /**
    * Fetching items in the selected house
@@ -45,6 +50,7 @@ const ItemPage = () => {
   useEffect(() => {
     const getItemsData = async () => {
       setItemLoading(true);
+      loadingProcess(LOADING_ITEM);
       await axiosInstance
         .get(`/item?house=${id}&limit=10&page=${itemPage}`)
         .then(({ data }) => {
@@ -59,9 +65,10 @@ const ItemPage = () => {
           setItemLoading(false);
         })
         .catch((err) => console.log(err));
+      loadingDone(LOADING_ITEM);
     };
     getItemsData();
-  }, [id, itemPage]);
+  }, [id, itemPage, loadingProcess, loadingDone]);
 
   /**
    * Fetching house data on page loaded
@@ -149,8 +156,8 @@ const ItemPage = () => {
   const handleScanned = async (result) => {
     setShowScanner(false);
 
-    //TODO: LOADING STATE
     if (result) {
+      loadingProcess(LOADING_ITEM);
       await axiosInstance
         .get(`/item/barcode/${encodeURI(result.text)}/house/${id}`)
         .then((res) => {
@@ -164,6 +171,7 @@ const ItemPage = () => {
             setShowNewForm(true);
           }
         });
+      loadingDone(LOADING_ITEM);
     }
   };
 
@@ -194,7 +202,7 @@ const ItemPage = () => {
    * fired. Item quantity going to be decreased
    */
   const handleTakeOne = async () => {
-    // TODO: LOADING STATE
+    loadingProcess(LOADING_ITEM);
     await axiosInstance
       .post(`/transaction/usage`, {
         house_id: id,
@@ -225,6 +233,7 @@ const ItemPage = () => {
       .catch(({ response }) => {
         errorResponseHandler(response, showAlert);
       });
+    loadingDone(LOADING_ITEM);
     setShowTake(false);
   };
 

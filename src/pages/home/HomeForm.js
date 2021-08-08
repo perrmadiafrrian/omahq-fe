@@ -1,8 +1,9 @@
 import { CSSTransition } from "react-transition-group";
 import { Modal, Input, InputGroup } from "../../components";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
+import LoadingContext from "../../contexts/LoadingContext";
 import errorResponseHandler from "../../utils/errorResponseHandler";
 
 /**
@@ -29,6 +30,8 @@ const HomeForm = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [requiredFail, setRequiredFail] = useState(false);
   const auth = useSelector((state) => state.auth);
+  const { loadingProcess, loadingDone } = useContext(LoadingContext);
+  const LOADING_PROCESS = "HOME_FORM";
 
   /**
    * On modal showing, its going to check
@@ -74,6 +77,7 @@ const HomeForm = ({
     }
 
     setIsProcessing(true);
+    loadingProcess(LOADING_PROCESS);
 
     if (editId) {
       await axiosInstance
@@ -132,6 +136,7 @@ const HomeForm = ({
         });
     }
 
+    loadingDone(LOADING_PROCESS);
     return true;
   };
 

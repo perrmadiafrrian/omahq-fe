@@ -8,6 +8,7 @@ import { useLocation, useHistory } from "react-router";
 import errorResponseHandler from "../utils/errorResponseHandler";
 import { useContext } from "react";
 import AlertContext from "../contexts/AlertContext";
+import LoadingContext from "../contexts/LoadingContext";
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -16,10 +17,12 @@ function GoogleSignin() {
   const location = useLocation();
   const history = useHistory();
   const { showAlert } = useContext(AlertContext);
+  const { loadingProcess, loadingDone } = useContext(LoadingContext);
   const { from } = location.state || { from: { pathname: "/" } };
+  const LOADING_GOOGLE_SIGNIN = "LOADING_GOOGLE_SIGNIN";
 
   const onSuccess = async (res) => {
-    //TODO: LOADING STATE
+    loadingProcess(LOADING_GOOGLE_SIGNIN);
     const { email, imageUrl, name } = res.profileObj;
     await axiosInstance
       .post("/auth/google", {
@@ -40,6 +43,7 @@ function GoogleSignin() {
       .catch(({ response }) => {
         errorResponseHandler(response, showAlert);
       });
+    loadingDone(LOADING_GOOGLE_SIGNIN);
   };
 
   const onFailure = (res) => {

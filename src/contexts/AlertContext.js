@@ -1,4 +1,11 @@
-import { createContext, forwardRef, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { CSSTransition } from "react-transition-group";
 import { Alert } from "../components";
 
@@ -16,9 +23,12 @@ export const AlertContextProvider = forwardRef(({ children }, ref) => {
   const [show, setShow] = useState(false);
   const alertRef = useRef(null);
 
-  const showAlert = (newAlert) => {
-    setCurrentOptions((opt) => [...opt, newAlert]);
-  };
+  const showAlert = useCallback(
+    (newAlert) => {
+      setCurrentOptions((opt) => [...opt, newAlert]);
+    },
+    [setCurrentOptions]
+  );
 
   const handleClose = () => {
     const newOptions = [...currentOptions];
