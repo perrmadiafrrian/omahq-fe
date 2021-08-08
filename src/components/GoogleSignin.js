@@ -22,7 +22,6 @@ function GoogleSignin() {
   const LOADING_GOOGLE_SIGNIN = "LOADING_GOOGLE_SIGNIN";
 
   const onSuccess = async (res) => {
-    loadingProcess(LOADING_GOOGLE_SIGNIN);
     const { email, imageUrl, name } = res.profileObj;
     await axiosInstance
       .post("/auth/google", {
@@ -58,9 +57,14 @@ function GoogleSignin() {
     accessType: "offline",
   });
 
+  const handleAction = () => {
+    loadingProcess(LOADING_GOOGLE_SIGNIN);
+    signIn();
+  };
+
   return (
     <button
-      onClick={signIn}
+      onClick={handleAction}
       className={`text-blue-600 bg-white hover:bg-gray-300 active:bg-gray-100
       dark:text-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-900 transition duration-300
       w-full border-0 py-2 px-8 shadow-lg focus:outline-none font-medium rounded text-xl relative`}
