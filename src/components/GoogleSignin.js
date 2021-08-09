@@ -47,7 +47,7 @@ function GoogleSignin() {
 
   const onFailure = (res) => {
     loadingDone(LOADING_GOOGLE_SIGNIN);
-    alert(res);
+    alert(JSON.stringify(res));
   };
 
   const { signIn } = useGoogleLogin({
