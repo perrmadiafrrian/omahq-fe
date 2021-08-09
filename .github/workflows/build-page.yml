@@ -23,4 +23,3 @@ jobs:
           branch: gh-page # The branch the action should deploy to.
           folder: build # The folder that the build script generates files.
           clean: true # Automatically remove deleted files from the deploy branch
-          target-folder: pages # The folder that we serve our pages files from
