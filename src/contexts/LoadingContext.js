@@ -60,7 +60,7 @@ export const LoadingContextProvider = ({ children }) => {
         <div className="fixed z-50 inset-0 flex justify-center items-center">
           <div className="absolute inset-0 bg-gray-800 bg-opacity-70"></div>
           <div className="w-64 h-64" ref={loadingRef}>
-            <Lottie options={defaultOptions} isClickToPauseDisabled={false} />
+            <Lottie options={defaultOptions} isClickToPauseDisabled={true} />
           </div>
         </div>
       </CSSTransition>
