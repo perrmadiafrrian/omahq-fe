@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { lazy } from "react";
 import { Suspense } from "react-is";
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import { AlertContextProvider } from "./contexts/AlertContext";
 import { LoadingContextProvider } from "./contexts/LoadingContext";
 import PrivateRoute from "./utils/PrivateRoute";
@@ -22,7 +22,7 @@ function App() {
   }, [menuState]);
 
   return (
-    <Router>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <AlertContextProvider>
         <LoadingContextProvider>
           <div>
@@ -42,7 +42,7 @@ function App() {
           </div>
         </LoadingContextProvider>
       </AlertContextProvider>
-    </Router>
+    </BrowserRouter>
   );
 }
 
