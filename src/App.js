@@ -22,7 +22,7 @@ function App() {
   }, [menuState]);
 
   return (
-    <HashRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter basename="/">
       <AlertContextProvider>
         <LoadingContextProvider>
           <div>
