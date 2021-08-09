@@ -46,7 +46,8 @@ function GoogleSignin() {
   };
 
   const onFailure = (res) => {
-    console.log(res);
+    loadingDone(LOADING_GOOGLE_SIGNIN);
+    alert(res);
   };
 
   const { signIn } = useGoogleLogin({
